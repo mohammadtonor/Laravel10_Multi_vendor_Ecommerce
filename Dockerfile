@@ -41,7 +41,7 @@ USER root
 
 COPY default.conf /etc/apache2/sites-enabled/000-default.conf
     
-CMD ["./scripts/00-laravel-deploy.sh"]
+RUN composer install
 # RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - 
 # RUN apt-get install -y nodejs
 
