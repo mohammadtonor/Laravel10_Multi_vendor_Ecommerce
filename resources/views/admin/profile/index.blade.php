@@ -10,8 +10,8 @@
       </div>
     </div>
     <div class="section-body">
-      <h2 class="section-title">Hi, Ujang!</h2>
-      <div class="row mt-sm-4 d-flex justify-content-center">
+      <h2 class="section-title">Hi, {{Auth::user()->name}}</h2>
+      <div class="row mt-sm-6">
         <div class="col-3 col-md-3 col-lg-5">
             <div class="profile-widget">
               <div class="profile-widget-header">                     

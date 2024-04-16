@@ -18,13 +18,13 @@ class ProfileController extends Controller
             'email' => ['required', 'email', 'unique:users,email,'.Auth::user()->id],
             'image' => ['required', 'max:2048']
         ]);
-        
+
         $user = Auth::user();
 
         if($request->hasFile('image')) {
             $image = $request->image;
             $imageName = rand().'_'.$image->getClientOriginalName();
-            $image->move(public_path('images'), $imageName);
+            $image->move(public_path('uploads'), $imageName);
 
             $path = "/uploads/".$imageName;
             $user->image = $path;
