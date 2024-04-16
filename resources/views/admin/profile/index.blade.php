@@ -15,7 +15,7 @@
         <div class="col-3 col-md-3 col-lg-5">
             <div class="profile-widget">
               <div class="profile-widget-header">                     
-                <img alt="image" src="{{asset('backend/assets/img/avatar/avatar-1.png')}}" class="rounded-circle profile-widget-picture">
+                <img alt="image" src="{{asset(Auth::user()->image)}}" class="rounded-circle profile-widget-picture">
               </div>
             </div>
         </div>

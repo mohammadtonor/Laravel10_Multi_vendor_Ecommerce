@@ -1,5 +1,4 @@
 FROM php:8.1.0-apache
-WORKDIR /var/www/html
 
 # Mod Rewrite
 RUN a2enmod rewrite
@@ -16,8 +15,12 @@ RUN apt-get update -y && apt-get install -y\
     libjpeg62-turbo-dev \
     libpng-dev \
     curl
-    
-    # Composer
+
+COPY . /var/www/html
+
+RUN chown -R www-data:www-data /var/www/html /var/www/html/storage /var/www/html/bootstrap/cache
+
+# Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
     
     # PHP Extension
@@ -29,5 +32,4 @@ RUN docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg \
 RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - 
 RUN apt-get install -y nodejs
 
-COPY . .
-RUN composer install
+RUN composer install --no-dev --optimize-autoloader
