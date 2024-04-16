@@ -18,7 +18,7 @@ RUN apt-get update -y && apt-get install -y\
 
 # Add the user UID:1000, GID:1000, home at /app
 RUN groupadd -r app -g 1000 && useradd -u 1000 -r -g app -m -d /app -s /sbin/nologin -c "App user" app && \
-    chmod 755 /var/www/
+    chmod 755 /var/www/html
 
 # Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
