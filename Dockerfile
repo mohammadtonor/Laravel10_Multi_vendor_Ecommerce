@@ -24,7 +24,7 @@ RUN groupadd -r app -g 1000 && useradd -u 1000 -r -g app -m -d /app -s /sbin/nol
 # Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
     
-    # PHP Extension
+# PHP Extension
 RUN docker-php-ext-install gettext intl pdo_mysql gd
     
 RUN docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg \
@@ -44,7 +44,5 @@ COPY default.conf /etc/apache2/sites-enabled/000-default.conf
 # RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - 
 # RUN apt-get install -y nodejs
 
-RUN composer install
-
-CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
+CMD ["/start.sh"]
 EXPOSE 80
