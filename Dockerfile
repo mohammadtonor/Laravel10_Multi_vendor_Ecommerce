@@ -1,39 +1,20 @@
-FROM php:8.1.0-apache
+FROM richarvey/nginx-php-fpm:3.1.6
 
-# Mod Rewrite
-RUN a2enmod rewrite
+COPY . .
 
-# Linux Library
-RUN apt-get update -y && apt-get install -y\ 
-    libicu-dev \
-    libmariadb-dev \
-    unzip zip \
-    zlib1g-dev \
-    libpng-dev \
-    libjpeg-dev \
-    libfreetype6-dev \
-    libjpeg62-turbo-dev \
-    libpng-dev \
-    curl
-# RUN echo "ServerName https://laravel10-multi-vendor-ecommerce.onrender.com" >> /etc/apache2/apache2.conf 
-ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
-RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
-RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
+# Image config
+ENV SKIP_COMPOSER 1
+ENV WEBROOT /var/www/html/public
+ENV PHP_ERRORS_STDERR 1
+ENV RUN_SCRIPTS 1
+ENV REAL_IP_HEADER 1
 
-COPY . /var/www/html
+# Laravel config
+ENV APP_ENV production
+ENV APP_DEBUG false
+ENV LOG_CHANNEL stderr
 
-# Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-    
-    # PHP Extension
-RUN docker-php-ext-install gettext intl pdo_mysql gd
-    
-RUN docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg \
-    && docker-php-ext-install -j$(nproc) gd
+# Allow composer to run as root
+ENV COMPOSER_ALLOW_SUPERUSER 1
 
-RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - 
-RUN apt-get install -y nodejs
-WORKDIR /var/www/html
-RUN composer install --no-dev --optimize-autoloader
-
-
+CMD ["/start.sh"]
