@@ -29,6 +29,6 @@ RUN docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg \
 RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - 
 RUN apt-get install -y nodejs
 
-WORKDIR /app
 COPY . .
 RUN composer install
+CMD ["/start.sh"]
