@@ -1,5 +1,4 @@
 FROM php:8.1.0-apache
-WORKDIR /var/www/
 
 # Mod Rewrite
 RUN a2enmod rewrite
@@ -33,13 +32,13 @@ RUN docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg \
 
 USER app
 
-WORKDIR /var/www/
+WORKDIR /var/www/html
 
 COPY . .
 
-USER root
+# USER root
 
-COPY default.conf /etc/apache2/sites-enabled/000-default.conf
+# COPY default.conf /etc/apache2/sites-enabled/000-default.conf
     
 RUN composer install
 # RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - 
