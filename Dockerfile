@@ -16,9 +16,13 @@ RUN apt-get update -y && apt-get install -y\
     libpng-dev \
     curl
 
-COPY . /var/www/html
+ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
+RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
+RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
-RUN chown -R www-data:www-data /var/www/html /var/www/html/storage /var/www/html/bootstrap/cache
+RUN a2enmod rewrite headers
+
+COPY . /var/www/html
 
 # Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -33,7 +37,5 @@ RUN curl -sL https://deb.nodesource.com/setup_16.x | bash -
 RUN apt-get install -y nodejs
 
 RUN composer install --no-dev --optimize-autoloader
-
-WORKDIR /var/www/html/public
 
 
