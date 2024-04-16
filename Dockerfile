@@ -1,31 +1,50 @@
 FROM php:8.1.0-apache
-# Install required packages
-RUN apt-get update && apt-get install -y \
-    libpq-dev \
-    libzip-dev
-
-# Clean sources
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
-
-# Install URL rewrite module
-RUN a2enmod rewrite
-
-# Install php dependencies
-RUN docker-php-ext-install pdo_pgsql zip
-
-# Copy Laravel app files
-COPY . /var/www/html
-
-# Set write permissions to used folders
-RUN chown -R www-data:www-data /var/www/html /var/www/html/storage /var/www/html/bootstrap/cache
-
-# Change working directory to Laravel app root
 WORKDIR /var/www/html
 
-# Install composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-# Install Laravel dependencies
-RUN composer install --no-dev --optimize-autoloader
+# Mod Rewrite
+RUN a2enmod rewrite
 
-# Expose port 80 for Apache
+# Linux Library
+RUN apt-get update -y && apt-get install -y\ 
+    libicu-dev \
+    libmariadb-dev \
+    unzip zip \
+    zlib1g-dev \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    libjpeg62-turbo-dev \
+    libpng-dev \
+    curl
+
+# Add the user UID:1000, GID:1000, home at /app
+RUN groupadd -r app -g 1000 && useradd -u 1000 -r -g app -m -d /app -s /sbin/nologin -c "App user" app && \
+    chmod 755 /var/www/html
+
+# Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+    
+    # PHP Extension
+RUN docker-php-ext-install gettext intl pdo_mysql gd
+    
+RUN docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) gd
+
+
+USER app
+
+WORKDIR /var/www/html
+
+COPY . .
+
+USER root
+
+COPY default.conf /etc/apache2/sites-enabled/000-default.conf
+    
+# RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - 
+# RUN apt-get install -y nodejs
+
+RUN composer install
+
+CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
 EXPOSE 80

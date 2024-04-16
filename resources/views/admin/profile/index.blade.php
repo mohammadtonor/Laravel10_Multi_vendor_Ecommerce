@@ -11,17 +11,9 @@
     </div>
     <div class="section-body">
       <h2 class="section-title">Hi, {{Auth::user()->name}}</h2>
-      <div class="row mt-sm-6">
-        <div class="col-3 col-md-3 col-lg-5">
-            <div class="profile-widget">
-              <div class="profile-widget-header">                     
-                <img alt="image" src="{{asset(Auth::user()->image)}}" class="rounded-circle profile-widget-picture">
-              </div>
-            </div>
-        </div>
-      </div>
       <div class="row mt-sm-4">
         <div class="col-12 col-md-12 col-lg-7">
+          
           <div class="card">
             <form method="POST" class="needs-validation" novalidate="" enctype="multipart/form-data" action="{{route('admin.profile.update')}}">
             @csrf
@@ -29,9 +21,18 @@
                 <h4>Edit Profile</h4>
               </div>
               <div class="card-body">
+                <div class="row mt-sm-2">
+                  <div class="col-3 col-md-3 col-lg-5">
+                      <div class="profile-widget">
+                        <div class="profile-widget-header">                     
+                          <img alt="image" src="{{asset(Auth::user()->image)}}" class="rounded-circle profile-widget-picture">
+                        </div>
+                      </div>
+                  </div>
+                </div>
                   <div class="row">
                     <div class="form-group col-12">
-                      <label>Name</label>
+                      <label>Image Profile</label>
                       <input type="file" name="image" class="form-control" >
                       <div class="invalid-feedback">
                         Please fill in the name
