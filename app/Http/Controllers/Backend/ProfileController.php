@@ -24,7 +24,7 @@ class ProfileController extends Controller
 
         if($request->hasFile('image')) {
             if(File::exists(public_path($user->image))){
-                File::delete(public_path($user->image))
+                File::delete(public_path($user->image));
             }
 
             $image = $request->image;
