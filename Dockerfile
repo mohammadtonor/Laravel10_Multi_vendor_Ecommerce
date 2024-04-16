@@ -1,5 +1,5 @@
 FROM php:8.1.0-apache
-WORKDIR /var/www/html
+WORKDIR /var/www/
 
 # Mod Rewrite
 RUN a2enmod rewrite
@@ -19,7 +19,7 @@ RUN apt-get update -y && apt-get install -y\
 
 # Add the user UID:1000, GID:1000, home at /app
 RUN groupadd -r app -g 1000 && useradd -u 1000 -r -g app -m -d /app -s /sbin/nologin -c "App user" app && \
-    chmod 755 /var/www/html
+    chmod 755 /var/www/
 
 # Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -33,7 +33,7 @@ RUN docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg \
 
 USER app
 
-WORKDIR /var/www/html
+WORKDIR /var/www/
 
 COPY . .
 
