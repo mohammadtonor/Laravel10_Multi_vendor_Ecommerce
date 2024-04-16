@@ -15,8 +15,14 @@ class ProfileController extends Controller
     public function updateProfile(Request $request) {
         $request->validate([
             'name' => ['required', 'max:100'],
-            'email' => ['required', 'email', 'unique:users,email,'.Auth::user()->id]
+            'email' => ['required', 'email', 'unique:users,email,'.Auth::user()->id],
+            'image' => ['required', 'max:2048']
         ]);
+
+        if($request->hasFile('image')) {
+            $image = $request->image;
+            $imageName = rand().'_'.$image->getClientOriginalName();
+        }
 
         $user = Auth::user();
         $user->name = $request->name;

@@ -31,4 +31,5 @@ RUN apt-get install -y nodejs
 
 COPY . .
 RUN composer install
-CMD ["/start.sh"]
+# CMD ["/start.sh"]
+RUN php artisan serve --host=0.0.0.0 
