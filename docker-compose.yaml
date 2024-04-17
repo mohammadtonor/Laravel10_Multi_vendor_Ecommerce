@@ -14,7 +14,7 @@ services:
     #       target: /app
     #       action: sync
     volumes:
-      - .:/app
+      - .:/var/www/html
     command: 'php artisan serve --host=0.0.0.0'
     depends_on:
       - ecommerce_db
