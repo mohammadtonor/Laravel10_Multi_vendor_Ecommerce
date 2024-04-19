@@ -114,7 +114,7 @@
                             required autocomplete="current-password" />
 
                     @if ($errors->has('password')) 
-                        <code>{{$errors->first('email')}}</code>
+                        <code>{{$errors->first('password')}}</code>
                     @endif
                   </div>
 

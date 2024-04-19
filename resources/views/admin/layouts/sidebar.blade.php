@@ -31,5 +31,6 @@
         <a href="https://getstisla.com/docs" class="btn btn-primary btn-lg btn-block btn-icon-split">
           <i class="fas fa-rocket"></i> Documentation
         </a>
-      </div>        </aside>
+      </div>    
+      </aside>
   </div>

@@ -1,25 +1,25 @@
 version: '3.9'
 services:
-  ecommerce-multi :
-    build: .
-    ports:
-      - 8000:8000
-    # develop:
-    #   watch:
-    #     - path: ./composer.json
-    #       action: rebuild
-    #     - path: ./paccomposerkage-lock.json
-    #       action: rebuild
-    #     - path: .
-    #       target: /app
-    #       action: sync
-    volumes:
-      - .:/var/www/html
-    command: 'php artisan serve --host=0.0.0.0'
-    depends_on:
-      - ecommerce_db
-    networks:
-      - ecommerce
+  # ecommerce-multi :
+  #   build: .
+  #   ports:
+  #     - 8000:8000
+  #   # develop:
+  #   #   watch:
+  #   #     - path: ./composer.json
+  #   #       action: rebuild
+  #   #     - path: ./paccomposerkage-lock.json
+  #   #       action: rebuild
+  #   #     - path: .
+  #   #       target: /app
+  #   #       action: sync
+  #   volumes:
+  #     - .:/var/www/html
+  #   command: 'php artisan serve --host=0.0.0.0'
+  #   depends_on:
+  #     - ecommerce_db
+  #   networks:
+  #     - ecommerce
 
   ecommerce_db:
     image: mysql:8
@@ -38,5 +38,5 @@ services:
 networks:
   ecommerce:
 
-volumes:
-  tasked:
+# volumes:
+#   tasked:
