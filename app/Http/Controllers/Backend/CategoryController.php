@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\DataTables\CategoryDatatable;
 use App\Models\Category;
+use App\Models\SubCategory;
 use Illuminate\Support\Str;
 
 class CategoryController extends Controller
@@ -47,7 +48,7 @@ class CategoryController extends Controller
 
         toastr("Category Created Successfully", 'success');
 
-        return redirect()->route('admin.category.index');
+        return redirect()->back();
     }
 
     /**
@@ -97,6 +98,10 @@ class CategoryController extends Controller
     public function destroy(string $id)
     {
         $category = Category::findOrFail($id);
+        $subCategory = SubCategory::where('category_id', $category->id)->count();
+        if ($subCategory > 0 ) {
+            return response(['status' => 'error', 'message' =>'Category has  subCategoies, first delete sub Item!']);
+        }
         $category->delete();
 
         return response(['status' => 'success', 'message' =>'Category Deletet Succesfully!']);
