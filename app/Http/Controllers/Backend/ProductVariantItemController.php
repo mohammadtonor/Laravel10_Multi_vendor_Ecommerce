@@ -4,23 +4,29 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Datatables\ProductVariantItemDataTable;
+use App\Models\Product;
+use App\Models\ProductVariant;
 
 class ProductVariantItemController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(ProductVariantItemDataTable $datatable, $productId, $variantId)
     {
-        //
+        $product = Product::findOrFail($productId);
+        $variant = ProductVariant::findOrFail($variantId);
+        return $datatable->render('admin.product.product-variant-item.index', compact('product', 'variant'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(string $id)
     {
-        //
+        $variant = ProductVariant::findOrFail($id);
+        return view('admin.product.product-variant-item.create', compact( 'variant'));
     }
 
     /**
@@ -28,7 +34,13 @@ class ProductVariantItemController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => [ 'required', 'max:20'],
+            'variant_id' => ['integer', 'required'],
+            'price' => ['required', 'integer'],
+            'is_default' => ['required'],
+            'status' => ['required']
+        ]);
     }
 
     /**

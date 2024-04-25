@@ -60,5 +60,5 @@ ENV RUN_SCRIPTS 1
 ENV APP_ENV production
 ENV APP_DEBUG false
 ENV LOG_CHANNEL stderr
-CMD ["/start.sh"]
 
+ENTRYPOINT ["sh", "-c", "$WORKING_DIR/start.sh"]
