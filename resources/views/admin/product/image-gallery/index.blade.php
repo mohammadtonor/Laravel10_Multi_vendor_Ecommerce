@@ -3,22 +3,37 @@
 @section('content')
 <section class="section">
     <div class="section-header">
-      <h1>Product</h1>
+      <h1>Product Image Gallery</h1>
     </div>
-
+    <div class="mb-3">
+        <a href="{{route('admin.product.index')}}" class="btn btn-primary">Back</a>
+    </div>
     <div class="section-body">
-      <div class='row'></div>
+      <div class='row'>
+        <div class="col-12">
+          <div class="card">
+            <div class='card-header'>
+                <h4>Uploads</h4>
+            </div>
+            <div class='card-body'>
+                <form action='{{route('admin.product-image-gallery.store')}}' method='POST' enctype='multipart/form-data'>
+                    @csrf
+                    <div class='form-group'>
+                        <label>Image <code>(Multiple image supported!)</code></label>
+                        <input type='file' class='form-control' name='image[]' multiple/>
+                        <input type='hidden' name='product_id' value="{{$product->id}}"/>
+                    </div>
+                    <button class='btn btn-primary'>Upload</button>
+                </form>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="row">
         <div class="col-12">
           <div class="card">
             <div class="card-header">
               <h4>All Product</h4>
-              <div class="card-header-action">
-                <a href="{{route('admin.product.create')}}" class="btn btn-primary">
-                  <i class="fas fa-plus"></i>
-                  Create New
-                </a>
-              </div>
             </div>
             <div class="card-body">
                 {{ $dataTable->table() }}

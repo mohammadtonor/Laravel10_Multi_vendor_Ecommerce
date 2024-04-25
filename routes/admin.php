@@ -10,6 +10,7 @@ use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\ChildCategoryController;
 use App\Http\Controllers\Backend\SubCategoryController;
 use App\Http\Controllers\Backend\ProductImageGalleryController;
+use App\Http\Controllers\Backend\ProductVariantController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/dashboard' , [AdminController::class , 'dashboard'])->name('dashboard');
@@ -46,5 +47,8 @@ Route::resource('vendor-profile', AdminVendorProfileController::class);
 Route::get('product/change-status', [ProductController::class, 'changeStatus'])->name('product.change-status');
 Route::get('product/get-sub-categories', [ProductController::class, 'getSubCategories'])->name('product.get-sub-categories');
 Route::get('product/get-child-categories', [ProductController::class, 'getChildCategories'])->name('product.get-child-categories');
-Route::resource('product/image-gallery', ProductImageGalleryController::class);
 Route::resource('product', ProductController::class);
+/** Product Image GAllery Routes */
+Route::resource('product-image-gallery', ProductImageGalleryController::class);
+/** Product Variant Routes */
+Route::resource('product-variant', ProductVariantController::class);

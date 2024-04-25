@@ -4,7 +4,7 @@ composer install --no-dev --working-dir=/var/www/html
 
 echo "Running migrations..."
 php artisan migrate --force
-# php artisan db:seed --force
+php artisan db:seed --force
 
 echo "Caching config..."
 php artisan config:cache
