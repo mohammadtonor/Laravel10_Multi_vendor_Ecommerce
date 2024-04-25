@@ -15,9 +15,9 @@
         <div class="col-12">
           <div class="card">
             <div class="card-header">
-              <h4>All Product Variants</h4>
+              <h4>Product: {{$product->name}}</h4>
               <div class="card-header-action">
-                <a href="{{route('admin.product-variant.create', ['product' => request()->product])}}" class="btn btn-primary">
+                <a href="{{route('admin.product-variant.create', ['product' => $product->id])}}" class="btn btn-primary">
                   <i class="fas fa-plus"></i>
                   Create New
                 </a>
@@ -33,6 +33,31 @@
   </section>
 @endsection
 
+
 @push('scripts')
     {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
+
+    <script>
+        $('document').ready(function() {
+            $('body').on('click' , '.change-status', function () {
+                let isChecked = $(this).is(':checked');
+                let id = $(this).data('id');
+
+                $.ajax({
+                    url: "{{route('admin.product-variant.change-status')}}",
+                    method: 'PUT',
+                    data: {
+                      isChecked: isChecked,
+                      id: id
+                    },
+                    success: function(data) {
+                       toastr.success(data.message);
+                    },
+                    error: function(xhr, status, error) {
+                        console.log(error);
+                    }
+                })
+            })
+        })
+    </script>
 @endpush

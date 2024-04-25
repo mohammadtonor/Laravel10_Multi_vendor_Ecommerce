@@ -68,8 +68,8 @@ RUN chown www-data:www-data -R ./storage
 
 RUN composer install
 
-# RUN php artisan migrate --force
-# RUN php artisan db:seed --force
+RUN php artisan migrate --force
+RUN php artisan db:seed --force
 
-# RUN php artisan config:cache
-# RUN artisan route:cache
+RUN php artisan config:cache
+RUN artisan route:cache

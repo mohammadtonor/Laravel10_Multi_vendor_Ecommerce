@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\DataTables\ProductVariantDataTable;
 use App\Http\Controllers\Controller;
+use App\Models\Product;
 use App\Models\ProductVariant;
 use Illuminate\Http\Request;
 
@@ -12,9 +13,9 @@ class ProductVariantController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(ProductVariantDataTable $datatable)
-    {
-        return $datatable->render('admin.product.product-variant.index');
+    public function index(Request $request, ProductVariantDataTable $datatable)
+    {   $product = Product::findOrFail($request->product);
+        return $datatable->render('admin.product.product-variant.index', compact('product'));
     }
 
     /**
@@ -43,9 +44,9 @@ class ProductVariantController extends Controller
         $productVariant->status = $request->status;
         $productVariant->save();
 
-        toastr('ProductVariant updated successfully' , 'success');
+        toastr('ProductVariant Created successfully' , 'success');
 
-        return redirect()->route('admin.product-variant.index');
+        return redirect()->route('admin.product-variant.index', ['product' => $request->product]);
     }
 
     /**
@@ -61,7 +62,8 @@ class ProductVariantController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $productVariant = ProductVariant::findOrFail($id);
+        return view('admin.product.product-variant.edit', compact('productVariant'));
     }
 
     /**
@@ -69,7 +71,21 @@ class ProductVariantController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'product' => ['required', 'integer'],
+            'name' => ['required', 'max:200'],
+            'status' => ['required',],
+        ]);
+
+        $productVariant = ProductVariant::findOrFail($id);
+        $productVariant->product_id = $request->product;
+        $productVariant->name = $request->name;
+        $productVariant->status = $request->status;
+        $productVariant->save();
+
+        toastr('ProductVariant updated successfully' , 'success');
+
+        return redirect()->route('admin.product-variant.index', ['product' => $request->product]);
     }
 
     /**
@@ -77,6 +93,18 @@ class ProductVariantController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $productVariant = $productVariant = ProductVariant::findOrFail($id);
+        $productVariant->delete();
+
+        return response(['status' => 'success', 'message' => 'Deleted Successfully']);
+    }
+
+    public function changeStatus (Request $request) {
+        $productVariant = ProductVariant::findOrFail($request->id);
+
+        $productVariant->status = $request->isChecked == 'true' ? 1 : 0;
+        $productVariant->save();
+
+        return response(['status' => 'success', 'message' => 'Status upfdated successfully']);
     }
 }

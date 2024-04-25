@@ -22,7 +22,28 @@ class ProductVariantDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'productvariant.action')
+            ->addColumn('action', function ($query) {
+                return $editBtn = "<div class='d-flex'>
+                    <a href='".route('admin.product-variant.edit', $query->id)."' class='btn btn-info'><i class='far fa-edit'> Variant Items </i></a>
+                    <a href='".route('admin.product-variant.edit', $query->id)."' class='btn btn-primary ml-2'><i class='far fa-edit'></i></a>
+                    <a href='".route('admin.product-variant.destroy', $query->id)."' class='btn btn-danger ml-2 delete-item'><i class='far fa-trash-alt'></i></a>
+                </div>";
+            })
+            ->addColumn('status', function ($query) {
+                if($query->status == 1) {
+                    $status = '<label class="custom-switch mt-2">
+                        <input type="checkbox" name="custom-switch-checkbox" checked data-id="'.$query->id.'" class="custom-switch-input change-status">
+                        <span class="custom-switch-indicator"></span>
+                    </label>';
+                } else {
+                    $status = '<label class="custom-switch">
+                        <input type="checkbox" name="custom-switch-checkbox" data-id="'.$query->id.'" class="custom-switch-input change-status">
+                        <span class="custom-switch-indicator"></span>
+                    </label>';
+                }
+                return $status;
+            })
+            ->rawColumns(['action', 'status'])
             ->setRowId('id');
     }
 
@@ -62,15 +83,14 @@ class ProductVariantDataTable extends DataTable
     public function getColumns(): array
     {
         return [
+            Column::make('id'),
+            Column::make('name'),
+            Column::make('status'),
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)
                   ->width(60)
-                  ->addClass('text-center'),
-            Column::make('id'),
-            Column::make('add your columns'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
+                  ->addClass('text-center')
         ];
     }
 

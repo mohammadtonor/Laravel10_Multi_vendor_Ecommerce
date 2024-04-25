@@ -44,11 +44,12 @@ Route::resource('brand', BrandController::class);
 Route::resource('vendor-profile', AdminVendorProfileController::class);
 
 /** Product Routes */
-Route::get('product/change-status', [ProductController::class, 'changeStatus'])->name('product.change-status');
+Route::put('product/change-status', [ProductController::class, 'changeStatus'])->name('product.change-status');
 Route::get('product/get-sub-categories', [ProductController::class, 'getSubCategories'])->name('product.get-sub-categories');
 Route::get('product/get-child-categories', [ProductController::class, 'getChildCategories'])->name('product.get-child-categories');
 Route::resource('product', ProductController::class);
 /** Product Image GAllery Routes */
 Route::resource('product-image-gallery', ProductImageGalleryController::class);
 /** Product Variant Routes */
+Route::put('product-variant/change-status', [ProductVariantController::class, 'changeStatus'])->name('product-variant.change-status');
 Route::resource('product-variant', ProductVariantController::class);
