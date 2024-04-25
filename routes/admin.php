@@ -3,11 +3,13 @@
 use App\Http\Controllers\Backend\AdminController;
 use App\Http\Controllers\Backend\AdminVendorProfileController;
 use App\Http\Controllers\Backend\BrandController;
+use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\ProfileController;
 use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\ChildCategoryController;
 use App\Http\Controllers\Backend\SubCategoryController;
+use App\Http\Controllers\Backend\ProductImageGalleryController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/dashboard' , [AdminController::class , 'dashboard'])->name('dashboard');
@@ -39,3 +41,10 @@ Route::resource('brand', BrandController::class);
 
 /** Vendor Profile Routes */
 Route::resource('vendor-profile', AdminVendorProfileController::class);
+
+/** Product Routes */
+Route::get('product/change-status', [ProductController::class, 'changeStatus'])->name('product.change-status');
+Route::get('product/get-sub-categories', [ProductController::class, 'getSubCategories'])->name('product.get-sub-categories');
+Route::get('product/get-child-categories', [ProductController::class, 'getChildCategories'])->name('product.get-child-categories');
+Route::resource('product/image-gallery', ProductImageGalleryController::class);
+Route::resource('product', ProductController::class);

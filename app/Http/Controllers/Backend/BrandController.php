@@ -41,7 +41,7 @@ class BrandController extends Controller
         ]);
 
         $brand = new Brand();
-        
+
         $imagePath = $this->uploadImage($request, 'logo', 'uploads');
         $brand->logo =  $imagePath;
         $brand->name = $request->name;
@@ -67,7 +67,7 @@ class BrandController extends Controller
      * Show the form for editing the specified resource.
      */
     public function edit(string $id)
-    {   
+    {
         $brand = Brand::findOrFail($id);
         return view('admin.brand.edit', compact('brand'));
     }
@@ -85,10 +85,10 @@ class BrandController extends Controller
         ]);
 
         $brand = Brand::findOrFail($id);
-        
+
         $logoPath = $this->uploadImage($request, 'logo', 'uploads');
 
-        $brand->logo =  !empty($logoPath) ? $logoPath : $brand->logo; 
+        $brand->logo =  !empty($logoPath) ? $logoPath : $brand->logo;
         $brand->name = $request->name;
         $brand->slug = Str::slug($request->name);
         $brand->is_featured = $request->is_featured;

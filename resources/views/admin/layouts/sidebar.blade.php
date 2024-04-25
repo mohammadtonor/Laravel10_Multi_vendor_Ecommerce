@@ -32,7 +32,7 @@
             <li class='{{setActive(['admin.child-category.*'])}}'><a class="nav-link" href="{{route('admin.child-category.index')}}">Child Category</a></li>
           </ul>
         </li>
-        
+
         <li class="dropdown {{setActive([
           'admin.product.*',
           'admin.brand.*',
@@ -40,6 +40,7 @@
           <a href="#" class="nav-link has-dropdown"><i class="fas fa-fire"></i><span>Manage Products</span></a>
           <ul class="dropdown-menu">
             <li class='{{setActive(['admin.brand.*'])}}'><a class="nav-link" href="{{route('admin.brand.index')}}">Brands</a></li>
+            <li class='{{setActive(['admin.product.*'])}}'><a class="nav-link" href="{{route('admin.product.index')}}">Product</a></li>
           </ul>
         </li>
 
@@ -66,6 +67,6 @@
         </li> --}}
         {{-- <li><a class="nav-link" href="blank.html"><i class="far fa-square"></i> <span>Blank Page</span></a></li> --}}
     </ul>
-   
+
       </aside>
   </div>
