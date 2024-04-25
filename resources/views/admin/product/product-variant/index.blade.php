@@ -17,7 +17,7 @@
             <div class="card-header">
               <h4>All Product Variants</h4>
               <div class="card-header-action">
-                <a href="{{route('admin.product-variant.create')}}" class="btn btn-primary">
+                <a href="{{route('admin.product-variant.create', ['product' => request()->product])}}" class="btn btn-primary">
                   <i class="fas fa-plus"></i>
                   Create New
                 </a>

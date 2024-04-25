@@ -14,22 +14,13 @@
               <h4>Create Product Variant</h4>
             </div>
             <div class="card-body">
-                <form method="POST" action="{{route('admin.category.store')}}">
+                <form method="POST" action="{{route('admin.product-variant.store')}}">
                   @csrf
-                  <div class="form-group">
-                    <label>Icon</label>
-
-                    <!-- Button tag -->
-                    <div>
-                      <button class="btn btn-primary" data-icon="" data-selected-class="btn-danger"
-                      data-unselected-class="btn-info" role="iconpicker" name="icon"></button>
-                    </div>
-
-                  </div>
                   <div class="form-group">
                     <label>Name</label>
                     <input type="text" class="form-control" name="name" value="{{old('title')}}">
                   </div>
+                  <input type="hidden" name="product" value="{{request()->product}}">
                   <div class="form-group">
                     <label for="inputState">Status</label>
                     <select id="inputState" class="form-control" name="status">
