@@ -60,3 +60,5 @@ ENV RUN_SCRIPTS 1
 ENV APP_ENV production
 ENV APP_DEBUG false
 ENV LOG_CHANNEL stderr
+
+RUN chmod 755 ./start.sh
