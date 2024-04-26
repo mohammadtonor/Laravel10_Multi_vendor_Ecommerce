@@ -10,6 +10,8 @@ use App\DataTables\ProductDatatable;
 use App\Models\Brand;
 use App\Models\Product;
 use App\Models\ChildCategory;
+use App\Models\ProductImageGallery;
+use App\Models\ProductVariant;
 use App\Traits\ImageUploadTrait;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -166,7 +168,24 @@ class ProductController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $product = Product::findOrFail($id);
+        $this->deleteImage($product->thumb_image);
+
+        ProductImageGallery::where('product_id', $product->id)->get()
+            ->map(function ($image) {
+                $this->deleteImage($image->image);
+                $image->delete();
+            });
+
+        ProductVariant::where('product_id', $product->id)->get()
+            ->map(function ($variant) {
+                $variant->productVariantItems()->delete();
+                $variant->delete();
+            });
+
+        $product->delete();
+
+        return response(['status' =>'success','message' => 'Product deleted successfully']);
     }
 
      /**
@@ -182,5 +201,13 @@ class ProductController extends Controller
         $childCategories = ChildCategory::where('sub_category_id', $request->id)->get();
 
         return $childCategories;
+     }
+
+     public function changestatus (Request $request) {
+        $product = Product::findOrFail($request->id);
+        $product->status = $request->isChecked == 'true'? 1 : 0;
+        $product->save();
+
+        return response(['status' =>'success','message' => 'Product status changed successfully']);
      }
 }

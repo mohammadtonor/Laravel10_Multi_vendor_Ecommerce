@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('product_variant_items', function (Blueprint $table) {
             $table->id();
-            $table->integer('variant_id');
+            $table->integer('product_variant_id');
             $table->string('name');
             $table->integer('price');
             $table->boolean('is_default');
