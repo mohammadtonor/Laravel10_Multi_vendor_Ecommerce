@@ -4,19 +4,20 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Vendor;
+use App\Traits\ImageUploadTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Traits\ImageUploadTrait;
 
-class AdminVendorProfileController extends Controller
-{   use ImageUploadTrait;
+class VendorShopProfileController extends Controller
+{
+    use ImageUploadTrait;
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $profile = Vendor::where('user_id', Auth::user()->id)->first();
-        return view('admin.vendor.index', compact('profile'));
+        $profile = Vendor::where('user_id' , Auth::user()->id)->first();
+        return view('vendor.shop-profile.index', compact('profile'));
     }
 
     /**
@@ -32,8 +33,10 @@ class AdminVendorProfileController extends Controller
      */
     public function store(Request $request)
     {
+
         $request->validate([
             'banner' => ['nullable', 'image' , 'max:3000'],
+            'shop_name' => ['required', 'max:3000'],
             'phone' => ['required' , 'max:50'],
             'email' => ['required', 'max:200', 'email'],
             'address' => ['required'],
@@ -47,6 +50,7 @@ class AdminVendorProfileController extends Controller
         $bannerPath = $this->uploadImage($request, 'banner', 'uploads' ,$vendor->banner);
 
         $vendor->banner = !empty($bannerPath) ? $bannerPath : $vendor->banner;
+        $vendor->shop_name = $request->shop_name;
         $vendor->phone = $request->phone;
         $vendor->email = $request->email;
         $vendor->address = $request->address;

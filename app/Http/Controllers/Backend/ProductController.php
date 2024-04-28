@@ -57,7 +57,7 @@ class ProductController extends Controller
             'status' => ['required'],
         ]);
 
-        $thumbPath = $this->uploadImage($request, 'image', 'uploads');
+        $thumbPath = $this->uploadImage($request->image, 'image', 'uploads');
 
         $product = new Product();
         $product->thumb_image = $thumbPath;
@@ -132,7 +132,7 @@ class ProductController extends Controller
 
         $product = Product::findOrFail($id);
 
-        $thumbPath = $this->updateImage($request, 'image','uploads', $product->thumb_image);
+        $thumbPath = $this->updateImage($request->image, 'image','uploads', $product->thumb_image);
 
         $product->thumb_image = !empty($thumbPath) ? $thumbPath : $product->thumb_image;
         $product->name = $request->name;

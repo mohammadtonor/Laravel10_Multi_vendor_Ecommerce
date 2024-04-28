@@ -38,7 +38,7 @@ class ProductImageGalleryController extends Controller
             'image.*' => ['required', 'image', 'max:2048'],
         ]);
 
-        $imagePaths = $this->uploadMultipleImage($request, 'image', 'uploads');
+        $imagePaths = $this->uploadMultipleImage($request->image, 'image', 'uploads');
 
         foreach($imagePaths as $image) {
             $productImageGallery = new ProductImageGallery();

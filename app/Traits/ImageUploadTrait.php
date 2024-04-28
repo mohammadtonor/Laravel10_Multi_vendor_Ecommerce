@@ -6,10 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
 trait ImageUploadTrait {
-    public function uploadImage(Request $request, $inputImage, $path) {
-        if ($request->hasFile($inputImage)) {
-
-            $image = $request->{$inputImage};
+    public function uploadImage($request, $inputImage, $path) {
+        if (!empty($request)) {
+            $image = $request;
             $ext = $image->getClientOriginalExtension();
             $imageName = 'image_'.uniqid().'.'.$ext;
             $image->move(public_path($path), $imageName);
@@ -18,16 +17,13 @@ trait ImageUploadTrait {
         }
     }
 
-    public function uploadMultipleImage(Request $request, $inputImage, $path) {
+    public function uploadMultipleImage($images, $inputImage, $path) {
         $imagePaths = [];
-        if ($request->hasFile($inputImage)) {
-
-            $images = $request->{$inputImage};
-
+        if (count($images) > 0) {
             foreach($images as $image){
                 $ext = $image->getClientOriginalExtension();
                 $imageName = 'image_'.uniqid().'.'.$ext;
-                
+
                 $image->move(public_path($path), $imageName);
 
                 $imagePaths[] = $path.'/'.$imageName;
@@ -37,13 +33,13 @@ trait ImageUploadTrait {
         }
     }
 
-    public function updateImage(Request $request, $inputImage, $path, $oldPath) {
-        if ($request->hasFile($inputImage)) {
+    public function updateImage($request, $inputImage, $path, $oldPath) {
+        if (!empty($request)) {
             if(File::exists(public_path($oldPath))){
                 File::delete(public_path($oldPath));
             }
 
-            $image = $request->{$inputImage};
+            $image = $request;
             $ext = $image->getClientOriginalExtension();
             $imageName = 'image_'.uniqid().'.'.$ext;
 

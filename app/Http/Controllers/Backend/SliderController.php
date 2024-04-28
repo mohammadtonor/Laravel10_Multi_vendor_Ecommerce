@@ -9,7 +9,7 @@ use App\Traits\ImageUploadTrait;
 use Illuminate\Http\Request;
 
 class SliderController extends Controller
-{   
+{
     use ImageUploadTrait;
     /**
      * Display a listing of the resource.
@@ -44,7 +44,7 @@ class SliderController extends Controller
 
         $slider = new Slider();
 
-        $imagePath = $this->uploadImage($request, 'banner', 'uploads');
+        $imagePath = $this->uploadImage($request->banner, 'banner', 'uploads');
 
         $slider->banner = $imagePath;
         $slider->type = $request->type;
@@ -93,7 +93,7 @@ class SliderController extends Controller
 
         $slider = Slider::findOrFail($id);
 
-        $imagePath = $this->uploadImage($request, 'banner', 'uploads' ,$slider->banner);
+        $imagePath = $this->uploadImage($request->banner, 'banner', 'uploads' ,$slider->banner);
 
         $slider->banner = empty(!$imagePath) ? $imagePath : $slider->banner;
         $slider->type = $request->type;
