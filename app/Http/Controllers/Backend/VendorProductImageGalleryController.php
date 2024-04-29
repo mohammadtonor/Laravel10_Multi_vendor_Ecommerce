@@ -8,6 +8,7 @@ use App\DataTables\VendorProductImageGalleryDataTable;
 use App\Models\Product;
 use App\Http\Repositories\ProductRepo;
 use App\Models\ProductImageGallery;
+use Illuminate\Support\Facades\Auth;
 
 class VendorProductImageGalleryController extends Controller
 {
@@ -21,6 +22,9 @@ class VendorProductImageGalleryController extends Controller
     public function index(Request $request, VendorProductImageGalleryDataTable $datatable)
     {
         $product = Product::findOrFail($request->product);
+        if($product->vendor_id !== Auth::user()->vendor->id) {
+            abort(403);
+        }
         return $datatable->render('vendor.product.image-gallery.index', compact('product'));
     }
 
@@ -83,6 +87,6 @@ class VendorProductImageGalleryController extends Controller
         $response = $this->productRepo->deleteImageGallery($id);
         return $response['status'] == 'success'
             ? response(['status' => 'success', 'message' => 'Image Deleted Successfully!'])
-            : response(['status' => 'error', 'message' => 'Error occured Deleting!']) ;
+            : response(['status' => 'error', 'message' => $response['message']]) ;
     }
 }

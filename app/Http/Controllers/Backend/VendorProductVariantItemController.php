@@ -56,10 +56,12 @@ class VendorProductVariantItemController extends Controller
             $request->is_default,
             $request->status
         );
-
+        
         if($response['status'] == 'success') {
             toastr('ProductVariants Created successfully' , 'success');
-            return redirect()->route('vendor.products-variant-item.index', ['productId' => $request->product_id,'variantId' => $request->variant_id]);
+            return redirect()->route('vendor.products-variant-item.index',
+                ['productId' => $response['result']->productVariant->product_id, 'variantId' => $response['result']->product_variant_id]);
+
         } else {
             toastr('ProductVariant Creating  error' , 'error');
             return redirect()->route('vendor.products-variant.create', ['variant' => $request->product]);
@@ -104,10 +106,10 @@ class VendorProductVariantItemController extends Controller
             $request->is_default,
             $request->status
         );
-        $productVarinat = $this->productRepo->getProductVariant($request->variant_id);
         if($response['status'] == 'success') {
             toastr('ProductVariants Updated successfully' , 'success');
-            return redirect()->route('vendor.products-variant-item.index', ['productId' => $productVarinat->product_id,'variantId' => $productVarinat->id]);
+            return redirect()->route('vendor.products-variant-item.index',
+                ['productId' => $response['result']->productVariant->product_id, 'variantId' => $response['result']->product_variant_id]);
         } else {
             toastr('ProductVariant Updatying error' , 'error');
             return redirect()->route('vendor.products-variant.edit', ['variant' => $id]);
@@ -123,5 +125,12 @@ class VendorProductVariantItemController extends Controller
         return $response['status'] == 'success'
             ? response(['status' => 'success', 'message' => 'Deleted Successfully!'])
             : response(['status' => 'error', 'message' => 'Error occured Deleting!']) ;
+    }
+
+    public function changeStatus (Request $request) {
+        $response = $this->productRepo->changeProductVarianItemtStatus($request->id, $request->isChecked);
+        return $response['status'] == 'success'
+            ? response(['status' => 'success', 'message' => 'Status Updated Successfully!'])
+            : response(['status' => 'error', 'message' => 'Error occured Updaying!']) ;
     }
 }

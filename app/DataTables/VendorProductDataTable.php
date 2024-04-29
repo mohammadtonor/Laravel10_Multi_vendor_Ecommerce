@@ -26,7 +26,7 @@ class VendorProductDataTable extends DataTable
                     <a href='".route('vendor.products.edit', $query->id)."' class='btn btn-primary'><i class='far fa-edit'></i></a>
                     <a href='".route('vendor.products.destroy', $query->id)."' class='btn btn-danger mr-2 delete-item' style='margin-left: 10px;'><i class='far fa-trash-alt'></i></a>
                     <div class='btn-group dropstart' style='margin-left: 5px;'>
-                        <button type='button' class='btn btn-primary dropdown-toggle' data-bs-toggle='dropdown' aria-expanded='false'>
+                        <button type='button' class='btn btn-warning dropdown-toggle' data-bs-toggle='dropdown' aria-expanded='false'>
                         <i class='fas fa-cog'></i>
                         </button>
                         <ul class='dropdown-menu'>
@@ -42,14 +42,21 @@ class VendorProductDataTable extends DataTable
             ->addColumn('status', function ($query) {
                 if($query->status == 1) {
                     $status = '<div class="form-check form-switch" >
-                        <input style="border-radius: 10px !important;  width: 40px !important;" class="form-check-input check-status" data-id="'.$query->id.'" type="checkbox" id="flexSwitchCheckChecked" checked>
+                        <input style="border-radius: 10px !important;  width: 40px !important;" class="form-check-input change-status" data-id="'.$query->id.'" type="checkbox" id="flexSwitchCheckChecked" checked>
                     </div>';
                 } else {
                     $status = '<div class="form-check form-switch" >
-                        <input style="border-radius: 10px !important;  width: 40px !important;" class="form-check-input check-status" data-id="'.$query->id.'" type="checkbox" id="flexSwitchCheckChecked">
+                        <input style="border-radius: 10px !important;  width: 40px !important;" class="form-check-input change-status" data-id="'.$query->id.'" type="checkbox" id="flexSwitchCheckChecked">
                     </div>';
                 }
                 return $status;
+            })
+            ->addColumn('approved', function ($query) {
+                if($query->is_approved == 1) {
+                    return '<i class="badge bg-success">Yes</i>';
+                } else {
+                    return '<i class="badge bg-warning">Pending</i>';
+                }
             })
             ->addColumn('product_type', function ($query) {
                 switch($query->product_type) {
@@ -70,7 +77,7 @@ class VendorProductDataTable extends DataTable
                         break;
                 }
             })
-            ->rawColumns(['thumb_image', 'action', 'product_type', 'status'])
+            ->rawColumns(['thumb_image', 'action', 'product_type', 'status', 'approved'])
             ->setRowId('id');
     }
 
@@ -114,6 +121,7 @@ class VendorProductDataTable extends DataTable
             Column::make('thumb_image'),
             Column::make('name'),
             Column::make('price'),
+            Column::make('approved'),
             Column::make('product_type'),
             Column::make('status'),
             Column::computed('action')

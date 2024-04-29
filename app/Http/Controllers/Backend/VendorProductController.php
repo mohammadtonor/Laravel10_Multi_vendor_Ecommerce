@@ -173,7 +173,10 @@ class VendorProductController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $response = $this->productRepo->deleteProduct($id);
+        return $response['status'] == 'success'
+            ? response(['status' => 'success', 'message' => 'Deleted Successfully!'])
+            : response(['status' => 'error', 'message' => 'Error occured Deleting!']) ;
     }
 
     public function getSubCategories (Request $request) {
@@ -182,5 +185,12 @@ class VendorProductController extends Controller
 
      public function getChildCategories (Request $request) {
         return $this->productRepo->getChildCategories($request->id);
+    }
+
+    public function changeStatus (Request $request) {
+        $response = $this->productRepo->changeProductStatus($request->id, $request->isChecked);
+        return $response['status'] == 'success'
+            ? response(['status' => 'success', 'message' => 'Status Updated Successfully!'])
+            : response(['status' => 'error', 'message' => 'Error occured Updaying!']) ;
     }
 }

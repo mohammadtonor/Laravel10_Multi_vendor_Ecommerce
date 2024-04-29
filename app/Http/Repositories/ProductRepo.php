@@ -17,6 +17,7 @@ use Exception;
 class ProductRepo
 {
     use ImageUploadTrait;
+
     public function storeProduct(
         $image,
         $name,
@@ -124,6 +125,41 @@ class ProductRepo
                 ["status" => "failed"];
     }
 
+    public function deleteProduct($id) {
+        try {
+            $product = Product::findOrFail($id);
+            $this->deleteImage($product->thumb_image);
+
+            ProductImageGallery::where('product_id', $product->id)->get()
+                ->map(function ($image) {
+                    $this->deleteImage($image->image);
+                    $image->delete();
+                });
+
+            ProductVariant::where('product_id', $product->id)->get()
+                ->map(function ($variant) {
+                    $variant->productVariantItems()->delete();
+                    $variant->delete();
+                });
+
+            $product->delete();
+            return ['status' =>'success'];
+        } catch (Exception  $error) {
+            return ["status" => "failed" ];
+        }
+    }
+
+    public function changeProductStatus ($id, $isChecked) {
+        try {
+            $productVariant = Product::findOrFail($id);
+            $productVariant->status = $isChecked == 'true' ? 1 : 0;
+            $productVariant->save();
+            return ["status" => "success"];
+        } catch (Exception  $error) {
+            return ["status" => "failed" , 'error' => $error];
+        }
+    }
+
     public function storeImageGallery ($images, $product_id) {
         try {
             $imagePaths = $this->uploadMultipleImage($images, 'image', 'uploads');
@@ -142,6 +178,9 @@ class ProductRepo
     public function deleteImageGallery ($id) {
         try {
             $productImageGallery = ProductImageGallery::findOrFail($id);
+            if($productImageGallery->product->vendor_id !== Auth::user()->vendor->id) {
+                return abort(403);
+            }
             $this->deleteImage($productImageGallery->image);
             $productImageGallery->delete();
             return ["status" => "success"];
@@ -203,6 +242,7 @@ class ProductRepo
         }
     }
 
+
     public function storeProductVariantItem ($name, $variantId, $price, $isDefault, $status) {
 
         try {
@@ -248,6 +288,18 @@ class ProductRepo
             return ["status" => "failed" , 'error' => $error];
         }
     }
+
+    public function changeProductVarianItemtStatus ($id, $isChecked) {
+        try {
+            $productVariant = ProductVariantItem::findOrFail($id);
+            $productVariant->status = $isChecked == 'true' ? 1 : 0;
+            $productVariant->save();
+            return ["status" => "success"];
+        } catch (Exception  $error) {
+            return ["status" => "failed" , 'error' => $error];
+        }
+    }
+
     public function getProductVariant (int $id) {
         return ProductVariant::findOrFail( $id);
      }

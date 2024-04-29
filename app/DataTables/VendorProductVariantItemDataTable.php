@@ -3,6 +3,7 @@
 namespace App\DataTables;
 
 use App\Models\ProductVariantItem;
+use Hamcrest\Type\IsDouble;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -39,17 +40,24 @@ class VendorProductVariantItemDataTable extends DataTable
             ->addColumn('variant_name', function ($query) {
                 return $query->productVariant->name;
             })
+            ->addColumn('is_default', function ($query) {
+                if($query->is_default == 1) {
+                    $isDefault =  '<i class="badge bg-success">Yes</i>';
+                } else {
+                    $isDefault =  '<i class="badge bg-danger">No</i>';
+                }
+                return $isDefault;
+
+            })
             ->addColumn('status', function ($query) {
                 if($query->status == 1) {
-                    $status = '<label class="custom-switch mt-2">
-                        <input type="checkbox" name="custom-switch-checkbox" checked data-id="'.$query->id.'" class="custom-switch-input change-status">
-                        <span class="custom-switch-indicator"></span>
-                    </label>';
+                    $status = '<div class="form-check form-switch" >
+                        <input style="border-radius: 10px !important;  width: 40px !important;" class="form-check-input change-status" data-id="'.$query->id.'" type="checkbox" id="flexSwitchCheckChecked" checked>
+                    </div>';
                 } else {
-                    $status = '<label class="custom-switch">
-                        <input type="checkbox" name="custom-switch-checkbox" data-id="'.$query->id.'" class="custom-switch-input change-status">
-                        <span class="custom-switch-indicator"></span>
-                    </label>';
+                    $status = '<div class="form-check form-switch" >
+                        <input style="border-radius: 10px !important;  width: 40px !important;" class="form-check-input change-status" data-id="'.$query->id.'" type="checkbox" id="flexSwitchCheckChecked">
+                    </div>';
                 }
                 return $status;
             })
@@ -62,7 +70,7 @@ class VendorProductVariantItemDataTable extends DataTable
      */
     public function query(ProductVariantItem $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->where('product_variant_id', request()->variantId)->newQuery();
     }
 
     /**

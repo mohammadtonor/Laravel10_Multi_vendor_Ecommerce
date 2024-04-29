@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Repositories\ProductRepo;
+use Illuminate\Support\Facades\Auth;
 
 class VendorProductVariantController extends Controller
 {
@@ -21,6 +22,9 @@ class VendorProductVariantController extends Controller
     public function index(Request $request, VendorProductVariantDataTable $datatable)
     {
         $product = Product::FindOrFail($request->product);
+        if($product->vendor_id !== Auth::user()->vendor->id) {
+            abort(403);
+        }
         return $datatable->render('vendor.product.product-variant.index', compact('product'));
     }
 
@@ -66,6 +70,9 @@ class VendorProductVariantController extends Controller
     public function edit(string $id)
     {
         $varinat = ProductVariant::findOrFail($id);
+        if($varinat->product->vendor_id !== Auth::user()->vendor->id) {
+            abort(403);
+        }
         return view('vendor.product.product-variant.edit', compact('varinat'));
     }
 
@@ -79,6 +86,10 @@ class VendorProductVariantController extends Controller
             'name' => ['required', 'max:200'],
             'status' => ['required',],
         ]);
+        $varinat = ProductVariant::findOrFail($id);
+        if($varinat->product->vendor_id !== Auth::user()->vendor->id) {
+            abort(403);
+        }
         $response = $this->productRepo->updateProductVariant($id,$request->name, $request->product, $request->status);
         if($response['status'] == 'success') {
             toastr('ProductVariants Updated successfully' , 'success');
@@ -94,6 +105,10 @@ class VendorProductVariantController extends Controller
      */
     public function destroy(string $id)
     {
+        $varinat = ProductVariant::findOrFail($id);
+        if($varinat->product->vendor_id !== Auth::user()->vendor->id) {
+            abort(403);
+        }
         $response = $this->productRepo->deleteProductVariant($id);
         return $response['status'] == 'success'
             ? response(['status' => 'success', 'message' => 'Image Deleted Successfully!'])
