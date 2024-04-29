@@ -3,8 +3,8 @@
 namespace App\DataTables;
 
 use App\Models\Product;
+use App\Models\SellerPendingProduct;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
-use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
@@ -13,7 +13,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class ProductDataTable extends DataTable
+class SellerPendingProductDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -24,21 +24,21 @@ class ProductDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('action', function ($query) {
-               return $editBtn = "<div class='d-flex'>
+                return $editBtn = "<div class='d-flex'>
                 <a href='".route('admin.product.edit', $query->id)."' class='btn btn-primary'><i class='far fa-edit'></i></a>
                 <a href='".route('admin.product.destroy', $query->id)."' class='btn btn-danger ml-2 delete-item'><i class='far fa-trash-alt'></i></a>
                 <div class='dropdown dropleft d-inline ml-2'>
-                      <button class='btn btn-primary dropdown-toggle' type='button' id='dropdownMenuButton2' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
+                    <button class='btn btn-primary dropdown-toggle' type='button' id='dropdownMenuButton2' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
                         <i class='fas fa-cog'></i>
-                      </button>
-                      <div class='dropdown-menu' x-placement='bottom-start' style='position: absolute; transform: translate3d(0px, 28px, 0px); top: 0px; left: 0px; will-change: transform;'>
+                    </button>
+                    <div class='dropdown-menu' x-placement='bottom-start' style='position: absolute; transform: translate3d(0px, 28px, 0px); top: 0px; left: 0px; will-change: transform;'>
                         <a class='dropdown-item has-icon' href='".route('admin.product-image-gallery.index', ['product' => $query->id])."'><i class='far fa-heart'></i>Image Gallery</a>
                         <a class='dropdown-item has-icon' href='".route('admin.product-variant.index', ['product' => $query->id])."'><i class='far fa-file'></i> Variant</a>
-                      </div>
                     </div>
-               </div>";
+                    </div>
+                </div>";
             })
-            ->addColumn('thumb_image', function($query) {
+            ->addColumn('image', function($query) {
                 return $img = "<img width=100  height=50 src='".asset($query->thumb_image ?? "backend/assets/img/news/img01.jpg")."'> </img>";
             })
             ->addColumn('status', function ($query) {
@@ -74,7 +74,18 @@ class ProductDataTable extends DataTable
                         break;
                 }
             })
-            ->rawColumns(['thumb_image', 'action', 'product_type', 'status'])
+            ->addColumn('approved', function ($query) {
+
+                $approved = "<select class='form-control is_approve' data-id=".$query->id.">
+                    <option value=0>Pending</option>
+                    <option  value=1>Approved</option>
+                </select>";
+                return $approved;
+            })
+            ->addColumn('vendor', function ($query) {
+                return $query->vendor->shop_name;
+            })
+            ->rawColumns(['image', 'action', 'product_type', 'approved', 'status'])
             ->setRowId('id');
     }
 
@@ -83,7 +94,7 @@ class ProductDataTable extends DataTable
      */
     public function query(Product $model): QueryBuilder
     {
-        return $model->where('vendor_id', Auth::user()->vendor->id)->newQuery();
+        return $model->where('is_approved', 0)->newQuery();
     }
 
     /**
@@ -92,7 +103,7 @@ class ProductDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('product-table')
+                    ->setTableId('sellerpendingproduct-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
@@ -115,10 +126,12 @@ class ProductDataTable extends DataTable
     {
         return [
             Column::make('id')->width('50'),
-            Column::make('thumb_image'),
+            Column::make('vendor'),
+            Column::make('image'),
             Column::make('name'),
             Column::make('price'),
             Column::make('product_type'),
+            Column::make('approved')->width(100),
             Column::make('status'),
             Column::computed('action')
                   ->exportable(false)
@@ -133,6 +146,6 @@ class ProductDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Product_' . date('YmdHis');
+        return 'SellerPendingProduct_' . date('YmdHis');
     }
 }

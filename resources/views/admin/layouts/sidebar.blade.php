@@ -36,11 +36,27 @@
         <li class="dropdown {{setActive([
           'admin.product.*',
           'admin.brand.*',
+          'admin.brand.*',
+          'admin.product.*',
+          'admin.product-variant.*',
+          'admin.product-variant-item.*',
+          'admin.products-variant-item.edit',
+          'admin.product-image-gallery.*',
+          'admin.seller-products.*',
+          'admin.seller-pending-products.*',
         ])}}">
           <a href="#" class="nav-link has-dropdown"><i class="fas fa-fire"></i><span>Manage Products</span></a>
           <ul class="dropdown-menu">
             <li class='{{setActive(['admin.brand.*'])}}'><a class="nav-link" href="{{route('admin.brand.index')}}">Brands</a></li>
-            <li class='{{setActive(['admin.product.*'])}}'><a class="nav-link" href="{{route('admin.product.index')}}">Product</a></li>
+            <li class='{{setActive([
+                'admin.product.*',
+                'admin.product-image-gallery.*',
+                'admin.product-variant.*',
+                'admin.product-variant-item.*',
+                'admin.products-variant-item.edit'
+            ])}}'><a class="nav-link" href="{{route('admin.product.index')}}">Product</a></li>
+            <li class='{{setActive(['admin.seller-products.*'])}}'><a class="nav-link" href="{{route('admin.seller-products.index')}}">Seller Product</a></li>
+            <li class='{{setActive(['admin.seller-pending-products.*'])}}'><a class="nav-link" href="{{route('admin.seller-pending-products.index')}}">Seller Pending Product</a></li>
           </ul>
         </li>
 

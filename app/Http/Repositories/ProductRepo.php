@@ -62,7 +62,6 @@ class ProductRepo
         $product->offer_end_date = $offer_end_date;
         $product->product_type = $product_type;
         $product->status = $status;
-        $product->is_approved = 0;
         $product->seo_title = $seo_title;
         $product->seo_description = $seo_description;
 
@@ -116,7 +115,7 @@ class ProductRepo
         $product->offer_end_date = $offer_end_date;
         $product->product_type = $product_type;
         $product->status = $status;
-        $product->is_approved = 0;
+        $product->is_approved = $product->is_approved;
         $product->seo_title = $seo_title;
         $product->seo_description = $seo_description;
 

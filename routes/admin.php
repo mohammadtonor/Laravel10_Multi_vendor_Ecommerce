@@ -12,6 +12,7 @@ use App\Http\Controllers\Backend\SubCategoryController;
 use App\Http\Controllers\Backend\ProductImageGalleryController;
 use App\Http\Controllers\Backend\ProductVariantController;
 use App\Http\Controllers\Backend\ProductVariantItemController;
+use App\Http\Controllers\Backend\SellerProductController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/dashboard' , [AdminController::class , 'dashboard'])->name('dashboard');
@@ -62,3 +63,9 @@ Route::post('product-variant-item', [ProductVariantItemController::class, 'store
 Route::get('products-variant-item-edit/{variantItemId}', [ProductVariantItemController::class, 'edit'])->name('products-variant-item.edit');
 Route::put('product-variant-item-update/{variantItemId}', [ProductVariantItemController::class, 'update'])->name('product-variant-item.update');
 Route::delete('product-variant-item/{variantItemId}', [ProductVariantItemController::class, 'destroy'])->name('product-variant-item.destroy');
+
+/** Seller product Routes */
+
+Route::get('seller-products', [SellerProductController::class, 'index'])->name('seller-products.index');
+Route::get('seller-pending-products', [SellerProductController::class, 'pendingProductsIndex'])->name('seller-pending-products.index');
+Route::put('change-seller-product-approving', [SellerProductController::class, 'changeSellerApproving'])->name('change-seller-product-approving');

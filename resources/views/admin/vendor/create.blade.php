@@ -22,6 +22,10 @@
                       </div>
                     <div class="form-group">
                         <label>Type</label>
+                        <input type="text" class="form-control" name="shop_name" value="{{old('type')}}">
+                    </div>
+                    <div class="form-group">
+                        <label>Type</label>
                         <input type="text" class="form-control" name="type" value="{{old('type')}}">
                     </div>
                     <div class="form-group">
@@ -49,7 +53,7 @@
                     </div>
                     <button type="submit" class="btn btn-primary">Create</button>
                 </form>
-            </div>  
+            </div>
           </div>
         </div>
       </div>

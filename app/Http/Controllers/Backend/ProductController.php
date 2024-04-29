@@ -86,9 +86,9 @@ class ProductController extends Controller
 
         if($response['status'] == 'success') {
             toastr('Vendor product created successfully');
-            return redirect()->route('vendor.products.index');
+            return redirect()->route('admin.products.index');
         } else {
-            toastr('Error creating vendor product');
+            toastr('Error creating admin product');
             return redirect()->back();
         }
     }
@@ -159,7 +159,7 @@ class ProductController extends Controller
 
         if($response['status'] == 'success') {
             toastr('Vendor product Updated successfully');
-            return redirect()->route('vendor.products.index');
+            return redirect()->route('admin.product.index');
         } else {
             toastr('Error Updating vendor product');
             return redirect()->back();
@@ -171,24 +171,10 @@ class ProductController extends Controller
      */
     public function destroy(string $id)
     {
-        $product = Product::findOrFail($id);
-        $this->deleteImage($product->thumb_image);
-
-        ProductImageGallery::where('product_id', $product->id)->get()
-            ->map(function ($image) {
-                $this->deleteImage($image->image);
-                $image->delete();
-            });
-
-        ProductVariant::where('product_id', $product->id)->get()
-            ->map(function ($variant) {
-                $variant->productVariantItems()->delete();
-                $variant->delete();
-            });
-
-        $product->delete();
-
-        return response(['status' =>'success','message' => 'Product deleted successfully']);
+        $response = $this->productRepo->deleteProduct($id);
+        return $response['status'] == 'success'
+            ? response(['status' => 'success', 'message' => 'Deleted Successfully!'])
+            : response(['status' => 'error', 'message' => 'Error occured Deleting!']) ;
     }
 
      /**
@@ -206,11 +192,10 @@ class ProductController extends Controller
         return $childCategories;
      }
 
-     public function changestatus (Request $request) {
-        $product = Product::findOrFail($request->id);
-        $product->status = $request->isChecked == 'true'? 1 : 0;
-        $product->save();
-
-        return response(['status' =>'success','message' => 'Product status changed successfully']);
-     }
+     public function changeStatus (Request $request) {
+        $response = $this->productRepo->changeProductStatus($request->id, $request->isChecked);
+        return $response['status'] == 'success'
+            ? response(['status' => 'success', 'message' => 'Status Updated Successfully!'])
+            : response(['status' => 'error', 'message' => 'Error occured Updaying!']) ;
+    }
 }

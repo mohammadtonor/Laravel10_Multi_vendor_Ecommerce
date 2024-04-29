@@ -38,7 +38,7 @@ trait ImageUploadTrait {
             if(File::exists(public_path($oldPath))){
                 File::delete(public_path($oldPath));
             }
-
+            dd($request);
             $image = $request;
             $ext = $image->getClientOriginalExtension();
             $imageName = 'image_'.uniqid().'.'.$ext;
