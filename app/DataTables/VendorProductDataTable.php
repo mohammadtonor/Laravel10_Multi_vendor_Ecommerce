@@ -23,16 +23,17 @@ class VendorProductDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addColumn('action', function ($query) {
                 return $editBtn = "<div class='d-flex'>
-                <a href='".route('vendor.products.edit', $query->id)."' class='btn btn-primary'><i class='far fa-edit'></i></a>
-                <a href='".route('vendor.products.destroy', $query->id)."' class='btn btn-danger mr-2 delete-item' style='margin-left: 10px;'><i class='far fa-trash-alt'></i></a>
-                <div class='btn-group dropstart' style='margin-left: 5px;'>
-                    <button type='button' class='btn btn-primary dropdown-toggle' data-bs-toggle='dropdown' aria-expanded='false'>
-                    <i class='fas fa-cog'></i>
-                    </button>
-                    <ul class='dropdown-menu'>
-                        <li><a class='dropdown-item has-icon' href='".route('vendor.product-image-gallery.index', ['product' => $query->id])."'>Image Gallery</a></li>
-                        <li><a class='dropdown-item has-icon' href='".route('admin.product-variant.index', ['product' => $query->id])."'>Variant</a></li>
-                    </ul>
+                    <a href='".route('vendor.products.edit', $query->id)."' class='btn btn-primary'><i class='far fa-edit'></i></a>
+                    <a href='".route('vendor.products.destroy', $query->id)."' class='btn btn-danger mr-2 delete-item' style='margin-left: 10px;'><i class='far fa-trash-alt'></i></a>
+                    <div class='btn-group dropstart' style='margin-left: 5px;'>
+                        <button type='button' class='btn btn-primary dropdown-toggle' data-bs-toggle='dropdown' aria-expanded='false'>
+                        <i class='fas fa-cog'></i>
+                        </button>
+                        <ul class='dropdown-menu'>
+                            <li><a class='dropdown-item has-icon' href='".route('vendor.product-image-gallery.index', ['product' => $query->id])."'>Image Gallery</a></li>
+                            <li><a class='dropdown-item has-icon' href='".route('vendor.products-variant.index', ['product' => $query->id])."'>Variant</a></li>
+                        </ul>
+                    </div>
                 </div>";
             })
             ->addColumn('thumb_image', function($query) {

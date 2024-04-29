@@ -54,11 +54,32 @@ class VendorProductController extends Controller
             'long_description' => ['required'],
             'product_type' => ['required'],
             'seo_title' => ['nullable', 'max:200'],
-            'seo_descriptrion' => ['nullable', 'max:250'],
+            'seo_description' => ['nullable', 'max:250'],
             'status' => ['required'],
         ]);
 
-        $response = $this->productRepo->storeProduct($request);
+        $response = $this->productRepo->storeProduct(
+            $request->image,
+            $request->name,
+            $request->category,
+            $request->sub_category,
+            $request->child_category,
+            $request->brand,
+            $request->qty,
+            $request->video_link,
+            $request->short_description,
+            $request->long_description,
+            $request->sku,
+            $request->price ,
+            $request->offer_price,
+            $request->offer_start_date,
+            $request->offer_end_date,
+            $request->product_type,
+            $request->status,
+            $request->seo_title,
+            $request->seo_description,
+        );
+
         if($response['status'] == 'success') {
             toastr('Vendor product created successfully');
             return redirect()->route('vendor.products.index');

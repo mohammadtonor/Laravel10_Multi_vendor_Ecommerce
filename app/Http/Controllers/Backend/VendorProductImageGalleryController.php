@@ -6,9 +6,15 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\DataTables\VendorProductImageGalleryDataTable;
 use App\Models\Product;
+use App\Http\Repositories\ProductRepo;
+use App\Models\ProductImageGallery;
 
 class VendorProductImageGalleryController extends Controller
 {
+    private ProductRepo $productRepo;
+    public function __construct(ProductRepo $productRepo) {
+        $this->productRepo = $productRepo;
+    }
     /**
      * Display a listing of the resource.
      */
@@ -29,9 +35,20 @@ class VendorProductImageGalleryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request )
     {
-        //
+        $request->validate([
+            'image.*' => ['required', 'image', 'max:2048'],
+            'product' => ['required', 'integer']
+        ]);
+        $response = $this->productRepo->storeImageGallery($request->image, $request->product);
+        if($response['status'] == 'success') {
+            toastr("images Uploded Succesfully", 'success');
+        } else {
+            toastr("Error images Uploding");
+        }
+        return redirect()->back();
+
     }
 
     /**
@@ -63,6 +80,9 @@ class VendorProductImageGalleryController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $response = $this->productRepo->deleteImageGallery($id);
+        return $response['status'] == 'success'
+            ? response(['status' => 'success', 'message' => 'Image Deleted Successfully!'])
+            : response(['status' => 'error', 'message' => 'Error occured Deleting!']) ;
     }
 }

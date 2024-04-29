@@ -9,6 +9,8 @@ use App\Models\SubCategory;
 use App\DataTables\ProductDatatable;
 use App\Models\Brand;
 use App\Models\Product;
+use App\Http\Repositories\ProductRepo;
+
 use App\Models\ChildCategory;
 use App\Models\ProductImageGallery;
 use App\Models\ProductVariant;
@@ -18,8 +20,10 @@ use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
-    use ImageUploadTrait;
-    /**
+    private ProductRepo $productRepo;
+    public function __construct(ProductRepo $productRepo) {
+        $this->productRepo = $productRepo;
+    }    /**
      * Display a listing of the resource.
      */
     public function index(ProductDatatable $datatable)
@@ -53,40 +57,40 @@ class ProductController extends Controller
             'long_description' => ['required'],
             'product_type' => ['required'],
             'seo_title' => ['nullable', 'max:200'],
-            'seo_descriptrion' => ['nullable', 'max:250'],
+            'seo_description' => ['nullable', 'max:250'],
             'status' => ['required'],
         ]);
 
-        $thumbPath = $this->uploadImage($request->image, 'image', 'uploads');
 
-        $product = new Product();
-        $product->thumb_image = $thumbPath;
-        $product->name = $request->name;
-        $product->slug = Str::slug($request->name);
-        $product->vendor_id = Auth::user()->vendor->id;
-        $product->category_id = $request->category;
-        $product->sub_category_id = $request->sub_category;
-        $product->child_category_id = $request->child_category;
-        $product->brand_id = $request->brand;
-        $product->qty = $request->qty;
-        $product->video_link = $request->video_link;
-        $product->short_description = $request->short_description;
-        $product->long_description = $request->long_description;
-        $product->sku= $request->sku;
-        $product->price = $request->price;
-        $product->offer_price = $request->offer_price;
-        $product->offer_start_date = $request->offer_start_date;
-        $product->offer_end_date = $request->offer_end_date;
-        $product->product_type = $request->product_type;
-        $product->status = $request->status;
-        $product->is_approved = 1;
-        $product->seo_title = $request->seo_title;
-        $product->seo_description = $request->seo_descriptrion;
-        $product->save();
+        $response = $this->productRepo->storeProduct(
+            $request->image,
+            $request->name,
+            $request->category,
+            $request->sub_category,
+            $request->child_category,
+            $request->brand,
+            $request->qty,
+            $request->video_link,
+            $request->short_description,
+            $request->long_description,
+            $request->sku,
+            $request->price ,
+            $request->offer_price,
+            $request->offer_start_date,
+            $request->offer_end_date,
+            $request->product_type,
+            $request->status,
+            $request->seo_title,
+            $request->seo_description,
+        );
 
-        toastr('Product saved successfully!', 'success');
-
-        return redirect()->route('admin.product.index');
+        if($response['status'] == 'success') {
+            toastr('Vendor product created successfully');
+            return redirect()->route('vendor.products.index');
+        } else {
+            toastr('Error creating vendor product');
+            return redirect()->back();
+        }
     }
 
     /**
@@ -126,41 +130,40 @@ class ProductController extends Controller
             'long_description' => ['required'],
             'product_type' => ['required'],
             'seo_title' => ['nullable', 'max:200'],
-            'seo_descriptrion' => ['nullable', 'max:250'],
+            'seo_description' => ['nullable', 'max:250'],
             'status' => ['required'],
         ]);
 
-        $product = Product::findOrFail($id);
+        $response = $this->productRepo->updateProduct(
+            $id,
+            $request->image,
+            $request->name,
+            $request->category,
+            $request->sub_category,
+            $request->child_category,
+            $request->brand,
+            $request->qty,
+            $request->video_link,
+            $request->short_description,
+            $request->long_description,
+            $request->sku,
+            $request->price ,
+            $request->offer_price,
+            $request->offer_start_date,
+            $request->offer_end_date,
+            $request->product_type,
+            $request->status,
+            $request->seo_title,
+            $request->seo_description,
+        );
 
-        $thumbPath = $this->updateImage($request->image, 'image','uploads', $product->thumb_image);
-
-        $product->thumb_image = !empty($thumbPath) ? $thumbPath : $product->thumb_image;
-        $product->name = $request->name;
-        $product->slug = Str::slug($request->name);
-        $product->vendor_id = Auth::user()->vendor->id;
-        $product->category_id = $request->category;
-        $product->sub_category_id = $request->sub_category;
-        $product->child_category_id = $request->child_category;
-        $product->brand_id = $request->brand;
-        $product->qty = $request->qty;
-        $product->video_link = $request->video_link;
-        $product->short_description = $request->short_description;
-        $product->long_description = $request->long_description;
-        $product->sku= $request->sku;
-        $product->price = $request->price;
-        $product->offer_price = $request->offer_price;
-        $product->offer_start_date = $request->offer_start_date;
-        $product->offer_end_date = $request->offer_end_date;
-        $product->product_type = $request->product_type;
-        $product->status = $request->status;
-        $product->is_approved = 1;
-        $product->seo_title = $request->seo_title;
-        $product->seo_description = $request->seo_descriptrion;
-        $product->save();
-
-        toastr('Product updated successfully!', 'success');
-
-        return redirect()->route('admin.product.index');
+        if($response['status'] == 'success') {
+            toastr('Vendor product Updated successfully');
+            return redirect()->route('vendor.products.index');
+        } else {
+            toastr('Error Updating vendor product');
+            return redirect()->back();
+        }
     }
 
     /**

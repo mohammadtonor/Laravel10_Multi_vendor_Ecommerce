@@ -139,9 +139,60 @@
         singleDatePicker: true
     });
   </script>
-
-
     <!-- Dynamic Delete alart -->
+  <script>
+
+    $(document).ready(function () {
+      $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+      $('body').on('click', '.delete-item', function (event) {
+        event.preventDefault();
+        var deleteUrl = $(this).attr('href');
+        Swal.fire({
+          title: 'Are you sure?',
+          text: "You won't be able to revert this!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+          if (result.isConfirmed) {
+
+            $.ajax({
+              type: 'DELETE',
+              url: deleteUrl,
+              success: function (data) {
+                if(data.status == 'success') {
+                    Swal.fire({
+                      title: "Deleted!",
+                      text: data.message,
+                      icon: "success"
+                    });
+                    window.location.reload();
+                } else if (data.status == 'error'){
+                    Swal.fire({
+                        title: "Cant Deleted!",
+                        text: data.message,
+                        icon: "error"
+                    });
+                 }
+              },
+              error: function(xhm, status, error) {
+                console.log(error);
+              }
+            });
+
+
+          }
+        })
+      })
+    })
+  </script>
 
 @stack('scripts')
 </body>

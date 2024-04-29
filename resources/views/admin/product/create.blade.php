@@ -110,7 +110,7 @@
                     </div>
                     <div class="form-group">
                         <label>SEO Description</label>
-                        <textarea type="text" class="form-control" name="seo_descriptrion">{{old('seo_descriptrion')}}</textarea>
+                        <textarea type="text" class="form-control" name="seo_description">{{old('seo_description')}}</textarea>
                     </div>
                     <div class="form-group">
                         <label for="inputState">Status</label>
