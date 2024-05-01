@@ -49,7 +49,7 @@
     <!--============================
         MAIN MENU END
     ==============================-->
-    
+
 
     <!--============================
         MOBILE MENU START
@@ -165,7 +165,8 @@
                 toastr.error("{{$error}}")
             @endforeach
         @endif
-      </script>
+    </script>
+@stack('scripts')
 </body>
 
 </html>

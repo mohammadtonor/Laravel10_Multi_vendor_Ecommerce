@@ -64,6 +64,7 @@
           <a href="#" class="nav-link has-dropdown"><i class="fas fa-fire"></i><span>Ecommerce</span></a>
           <ul class="dropdown-menu">
             <li class='{{setActive(['admin.vendor-profile.*'])}}'><a class="nav-link" href="{{route('admin.vendor-profile.index')}}">Vendor Profile</a></li>
+            <li class='{{setActive(['admin.flash-sale.*'])}}'><a class="nav-link" href="{{route('admin.flash-sale.index')}}">Flash Sale</a></li>
           </ul>
         </li>
 

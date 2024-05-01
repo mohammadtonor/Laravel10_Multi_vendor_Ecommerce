@@ -24,4 +24,8 @@ class Product extends Model
     public function vendor () {
         return $this->belongsTo(Vendor::class);
     }
+
+    function productImageGallery() {
+        return $this->hasMany(ProductImageGallery::class);
+    }
 }
