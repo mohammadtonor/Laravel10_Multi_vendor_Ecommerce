@@ -76,7 +76,7 @@
                             <div class="wsus__offer_det_single">
                                 <div class="wsus__product_item">
                                     <span class="wsus__new">{{checkProductType($product->product_type)}}</span>
-                                    <a class="wsus__pro_link" href="product_details.html"><img src="{{asset($product->thumb_image)}}" alt="product" class="img-fluid w-100 img_1" />
+                                    <a class="wsus__pro_link" href="{{route('product-detail', $product->slug)}}"><img src="{{asset($product->thumb_image)}}" alt="product" class="img-fluid w-100 img_1" />
                                         <img src="
                                             @if (isset($product->productImageGallery[0]->image))
                                                 {{asset($product->productImageGallery[0]->image)}}

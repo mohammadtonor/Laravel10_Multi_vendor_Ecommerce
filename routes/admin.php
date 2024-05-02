@@ -80,3 +80,4 @@ Route::put('flash-sale/show-home/change-status', [FlashSaleController::class, 'c
 Route::put('flash-sale/change-status', [FlashSaleController::class, 'changeStatus'])->name('flash-sale.change-status');
 Route::delete('flash-sale/{id}', [FlashSaleController::class, 'destroy'])->name('flash-sale.destroy');
 
+/** General Setting Route */
