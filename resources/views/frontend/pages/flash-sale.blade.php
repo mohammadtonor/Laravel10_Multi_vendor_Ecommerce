@@ -85,7 +85,7 @@
                                             @endif
                                             " alt="product" class="img-fluid w-100 img_2" /></a>
                                     <div class="wsus__product_details">
-                                        <a class="wsus__category" href="#">{{$product->category->name}} </a>
+                                        <a class="wsus__category" href="{{route('product-detail', $product->slug)}}">{{$product->category->name}} </a>
                                         <p class="wsus__pro_rating">
                                             <i class="fas fa-star"></i>
                                             <i class="fas fa-star"></i>
@@ -96,10 +96,10 @@
                                         </p>
                                         <a class="wsus__pro_name" href="#">{{$product->name}}</a>
                                         @if (checkDiscount($product))
-                                            <p class="wsus__price">${{$product->offer_price}} <del>${{$product->price}}</del></p>
+                                            <p class="wsus__price">{{$settings->currency_icon}}{{$product->offer_price}} <del>{{$settings->currency_icon}}{{$product->price}}</del></p>
 
                                         @else
-                                            <p class="wsus__price">$${{$product->price}}</p>
+                                            <p class="wsus__price">{{$settings->currency_icon}}{{$product->price}}</p>
                                         @endif
                                         <a class="add_cart" href="#">add to cart</a>
                                     </div>
@@ -141,7 +141,6 @@
                 year: {{date('Y', strtotime($flashSale->end_date))}},
                 month: {{date('m', strtotime($flashSale->end_date))}},
                 day: {{date('d', strtotime($flashSale->end_date))}},
-                enableUtc: true
             });
         })
     </script>

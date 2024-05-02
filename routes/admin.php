@@ -14,6 +14,8 @@ use App\Http\Controllers\Backend\ProductImageGalleryController;
 use App\Http\Controllers\Backend\ProductVariantController;
 use App\Http\Controllers\Backend\ProductVariantItemController;
 use App\Http\Controllers\Backend\SellerProductController;
+use App\Http\Controllers\Backend\SettingController;
+use App\Models\GeneralSetting;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/dashboard' , [AdminController::class , 'dashboard'])->name('dashboard');
@@ -81,3 +83,5 @@ Route::put('flash-sale/change-status', [FlashSaleController::class, 'changeStatu
 Route::delete('flash-sale/{id}', [FlashSaleController::class, 'destroy'])->name('flash-sale.destroy');
 
 /** General Setting Route */
+Route::get('settings', [SettingController::class, 'index'])->name('settings.index');
+Route::put('genereal-setting-update', [SettingController::class, 'generalSettingUpdate'])->name('general-setting.update');
