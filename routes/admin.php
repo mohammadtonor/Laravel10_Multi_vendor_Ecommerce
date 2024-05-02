@@ -8,6 +8,7 @@ use App\Http\Controllers\Backend\ProfileController;
 use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\ChildCategoryController;
+use App\Http\Controllers\Backend\CouponController;
 use App\Http\Controllers\Backend\FlashSaleController;
 use App\Http\Controllers\Backend\SubCategoryController;
 use App\Http\Controllers\Backend\ProductImageGalleryController;
@@ -82,6 +83,11 @@ Route::put('flash-sale/show-home/change-status', [FlashSaleController::class, 'c
 Route::put('flash-sale/change-status', [FlashSaleController::class, 'changeStatus'])->name('flash-sale.change-status');
 Route::delete('flash-sale/{id}', [FlashSaleController::class, 'destroy'])->name('flash-sale.destroy');
 
+/** Coupon Route */
+Route::put('coupons/change-status', [CouponController::class, 'changeStatus'])->name('coupons.change-status');
+Route::resource('coupons', CouponController::class);
+
 /** General Setting Route */
 Route::get('settings', [SettingController::class, 'index'])->name('settings.index');
 Route::put('genereal-setting-update', [SettingController::class, 'generalSettingUpdate'])->name('general-setting.update');
+
