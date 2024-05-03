@@ -34,6 +34,5 @@ RUN chown www-data:www-data -R ./storage
 ENV COMPOSER_ALLOW_SUPERUSER 1
 
 RUN composer install
-RUN php artisan migrate
 
 
