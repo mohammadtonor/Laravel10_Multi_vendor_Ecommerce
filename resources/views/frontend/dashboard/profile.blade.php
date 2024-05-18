@@ -1,5 +1,9 @@
 @extends('frontend.dashboard.layouts.master')
 
+@section('title')
+    {{$settings->site_name}} || Profile
+@endsection
+
 @section('content')
   <!--=============================
     DASHBOARD START
@@ -31,7 +35,7 @@
                             <input type="text" placeholder="Name" name="name" value="{{Auth::user()->name}}">
                           </div>
                         </div>
-                        
+
                         <div class="col-md-12">
                           <div class="wsus__dash_pro_single">
                             <i class="fal fa-envelope-open"></i>
@@ -79,5 +83,5 @@
       </div>
     </div>
   </section>
-    
+
 @endsection

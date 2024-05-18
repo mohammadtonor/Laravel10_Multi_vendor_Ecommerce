@@ -1,5 +1,9 @@
 @extends('frontend.layouts.master')
 
+@section('title')
+{{$settings->site_name}} || Forgot Password
+@endsection
+
 @section('content')
     <!--============================
         BREADCRUMB START
@@ -40,10 +44,10 @@
                                 @csrf
                                 <div class="wsus__login_input">
                                     <i class="fal fa-envelope"></i>
-                                    <input 
-                                        id="email"  
-                                        type="email" 
-                                        name="email" 
+                                    <input
+                                        id="email"
+                                        type="email"
+                                        name="email"
                                         value="{{old('email')}}"
                                         placeholder="Your Email"
                                     >
@@ -51,7 +55,7 @@
                                 <button class="common_btn" type="submit">send</button>
                             </form>
                         </div>
-                        <a class="see_btn mt-4" href="login.html">go to login</a>
+                        <a class="see_btn mt-4" href="{{route('login')}}">go to login</a>
                     </div>
                 </div>
             </div>

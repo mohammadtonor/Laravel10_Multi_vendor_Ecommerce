@@ -1,5 +1,9 @@
 @extends('frontend.layouts.master')
 
+@section('title')
+{{$settings->site_name}} || Login
+@endsection
+
 @section('content')
 
 <!--============================
@@ -53,9 +57,9 @@
                                     @csrf
                                     <div class="wsus__login_input">
                                         <i class="fas fa-user-tie"></i>
-                                        <input 
+                                        <input
                                             id="email"
-                                            type="text" 
+                                            type="text"
                                             name="email"
                                             placeholder="Email"
                                             value="{{old('email')}}"
@@ -64,9 +68,9 @@
                                     <div class="wsus__login_input">
                                         <i class="fas fa-key"></i>
                                         <input
-                                            id="password" 
+                                            id="password"
                                             type="password"
-                                            name="password" 
+                                            name="password"
                                             value="{{old('password')}}"
                                             placeholder="Password"
                                         />
@@ -98,8 +102,8 @@
                                     @csrf
                                     <div class="wsus__login_input">
                                         <i class="fas fa-user-tie"></i>
-                                        <input 
-                                            type="text" 
+                                        <input
+                                            type="text"
                                             placeholder="Name"
                                             name="name"
                                             id="name"
@@ -108,8 +112,8 @@
                                     </div>
                                     <div class="wsus__login_input">
                                         <i class="far fa-envelope"></i>
-                                        <input 
-                                            type="text" 
+                                        <input
+                                            type="text"
                                             placeholder="Email"
                                             name="email"
                                             id="email"
@@ -118,8 +122,8 @@
                                     </div>
                                     <div class="wsus__login_input">
                                         <i class="fas fa-key"></i>
-                                        <input 
-                                            type="text" 
+                                        <input
+                                            type="text"
                                             placeholder="Password"
                                             name="password"
                                             id="password"
@@ -128,8 +132,8 @@
                                     </div>
                                     <div class="wsus__login_input">
                                         <i class="fas fa-key"></i>
-                                        <input 
-                                            type="text" 
+                                        <input
+                                            type="text"
                                             placeholder="Confirm Password"
                                             name="password_confirmation"
                                             value="{{old('password_confirmation')}}"
@@ -151,5 +155,5 @@
     LOGIN/REGISTER PAGE END
 ==============================-->
 
-    
+
 @endsection

@@ -1,5 +1,9 @@
 @extends('frontend.layouts.master')
 
+@section('title')
+{{$settings->site_name}} || Reset Password
+@endsection
+
 @section('content')
 
     <!--============================
@@ -39,28 +43,28 @@
                             <h4>change password</h4>
                             <div class="wsus__single_pass">
                                 <label>current password</label>
-                                <input 
-                                    id="email"  
-                                    type="email" 
-                                    name="email" value="{{old('email', $request->email)}}"  
+                                <input
+                                    id="email"
+                                    type="email"
+                                    name="email" value="{{old('email', $request->email)}}"
                                     placeholder="Current Password"
                                 >
                             </div>
                             <div class="wsus__single_pass">
                                 <label>new password</label>
-                                <input 
-                                    type="text" 
+                                <input
+                                    type="text"
                                     placeholder="New Password"
-                                    id="password" 
-                                    type="password" 
-                                    name="password" 
-                                    autocomplete="new-password" 
+                                    id="password"
+                                    type="password"
+                                    name="password"
+                                    autocomplete="new-password"
                                 >
                             </div>
                             <div class="wsus__single_pass">
                                 <label>confirm password</label>
-                                <input 
-                                    type="text" 
+                                <input
+                                    type="text"
                                     name="password_confirmation"
                                     placeholder="Confirm Password"
                                 >

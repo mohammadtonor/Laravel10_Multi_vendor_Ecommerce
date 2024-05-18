@@ -1,7 +1,10 @@
 @extends('frontend.layouts.master')
 
+@section('title')
+    {{$settings->site_name}} || e-Commerce
+@endsection
+
 @section('content')
-    
 <!--==========================
       PRODUCT MODAL VIEW START
 ===========================-->
@@ -36,12 +39,12 @@
 <!--============================
     MONTHLY TOP PRODUCT END
     ==============================-->
-    
-    
+
+
 <!--============================
     BRAND SLIDER START
 ==============================-->
-        
+
 @include('frontend.home.sections.bannerSliderStart')
 <!--============================
     BRAND SLIDER END
@@ -54,7 +57,7 @@
 @include('frontend.home.sections.singleBanner')
 
 <!--============================
-    SINGLE BANNER END  
+    SINGLE BANNER END
 ==============================-->
 
 
@@ -63,44 +66,44 @@
 ==============================-->
 @include('frontend.home.sections.hotDeals')
 <!--============================
-    HOT DEALS END  
+    HOT DEALS END
 ==============================-->
 
 
 <!--============================
-    ELECTRONIC PART START  
+    ELECTRONIC PART START
 ==============================-->
 @include('frontend.home.sections.electronicPart')
 <!--============================
-    ELECTRONIC PART END  
+    ELECTRONIC PART END
 ==============================-->
 
 
 <!--============================
-    ELECTRONIC PART START  
+    ELECTRONIC PART START
 ==============================-->
 @include('frontend.home.sections.electronicPartStart')
 <!--============================
-    ELECTRONIC PART END  
+    ELECTRONIC PART END
 ==============================-->
 
 
 <!--============================
-    LARGE BANNER  START  
+    LARGE BANNER  START
 ==============================-->
 @include('frontend.home.sections.largeBanner')
 <!--============================
-    LARGE BANNER  END  
+    LARGE BANNER  END
 ==============================-->
 
 
 <!--============================
-    WEEKLY BEST ITEM START  
+    WEEKLY BEST ITEM START
 ==============================-->
 @include('frontend.home.sections.weeklyBestItem')
 
 <!--============================
-    WEEKLY BEST ITEM END 
+    WEEKLY BEST ITEM END
 ==============================-->
 
 
