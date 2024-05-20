@@ -2,6 +2,8 @@
 
 // set Sidebar item active
 
+use Gloudemans\Shoppingcart\Facades\Cart;
+
 function setActive (array $route) {
     if (is_array($route)) {
         foreach($route as $r) {
@@ -48,4 +50,13 @@ function checkProductType (string $type) {
             return '';
             break;
     }
+}
+
+function getCartSidebarTotal() {
+    $total = 0;
+    foreach(Cart::content() as $product) {
+        $total += ($product->price + $product->options->variants_total ) * $product->qty;
+    }
+
+    return $total;
 }
