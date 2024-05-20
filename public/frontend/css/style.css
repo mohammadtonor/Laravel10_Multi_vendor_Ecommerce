@@ -1637,6 +1637,7 @@ PRODUCT MODAL VIEW END
   border-radius: 3px;
   z-index: 1;
   padding: 0px 10px;
+  width: 70px !important;
 }
 
 .wsus__minus {
@@ -9474,4 +9475,20 @@ a:not([href]):not([class]):hover {
 .create__button {
     text-align: right !important;
     margin-bottom: 10px !important;
+}
+
+.product_qty_wrapper {
+    display: flex;
+}
+
+.product-qty {
+    width: 40px;
+    height: 36px;
+    padding-left: 5px;
+    margin-top: 2px;
+}
+
+.wsus__mini_cart .wsus__cart_img img {
+    height: 70px;
+    object-fit: cover;
 }

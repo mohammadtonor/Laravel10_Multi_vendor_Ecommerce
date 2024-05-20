@@ -237,10 +237,11 @@
                             <form action="" class="shopping-cart-form">
                                 <div class="wsus__selectbox">
                                     <div class="row">
+                                        <input type="hidden" name="product_id" value="{{$product->id}}">
                                         @foreach ($product->variants as $variant)
                                             <div class="col-xl-6 col-sm-6">
                                                 <h5 class="mb-2">{{$variant->name}}</h5>
-                                                <select class="select_2" name="state">
+                                                <select class="select_2" name="variant_items[]">
                                                     @foreach ($variant->productVariantItems as $productVariantItem)
                                                         <option {{$productVariantItem->is_default == 1? 'selected' : ''}}  value="{{$productVariantItem->id}}">{{$productVariantItem->name}} (${{$productVariantItem->price}})</option>
                                                     @endforeach
@@ -253,7 +254,7 @@
                                 <div class="wsus__quentity">
                                     <h5>quentity :</h5>
                                     <div class="select_number">
-                                        <input class="number_area" type="text" min="1" max="100" value="1" />
+                                        <input class="number_area" name="qty" type="text" min="1" max="100" value="1" />
                                     </div>
                                 </div>
 
@@ -761,10 +762,43 @@
 @push('scripts')
     <script>
         $(document).ready(function () {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            // Add product into cart
             $('.shopping-cart-form').on('submit', function (e) {
                 e.preventDefault();
-                alert("test")
+                let formData = $(this).serialize();
+
+                $.ajax({
+                    method: 'POST',
+                    data: formData,
+                    url: '{{route('add-to-cart')}}',
+                    success: function (data) {
+                        getCartCount();
+                        toastr.success(data.message);
+                    },
+                    error: function(data) {
+                        toastr.success(data.message);
+                    }
+                })
             })
+
+            function getCartCount(){
+                $.ajax({
+                    method: 'GET',
+                    url: "{{route('cart-count')}}",
+                    success: function (data) {
+                        $('.cart-count').text(data);
+                    },
+                    error: function(data) {
+                        console.log(data);
+                    }
+                })
+            }
         })
     </script>
 @endpush

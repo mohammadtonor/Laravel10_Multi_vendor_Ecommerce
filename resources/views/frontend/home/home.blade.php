@@ -8,7 +8,7 @@
 <!--==========================
       PRODUCT MODAL VIEW START
 ===========================-->
-@include('frontend.home.sections.productModalView')
+{{-- @include('frontend.home.sections.productModalView') --}}
 <!--==========================
     PRODUCT MODAL VIEW END
 ===========================-->
