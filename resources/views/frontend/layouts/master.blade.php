@@ -171,7 +171,9 @@
             @endforeach
         @endif
     </script>
-@stack('scripts')
+
+    @include('frontend.layouts.scripts')
+    @stack('scripts')
 </body>
 
 </html>

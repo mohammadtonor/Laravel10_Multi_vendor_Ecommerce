@@ -3,6 +3,7 @@
 // set Sidebar item active
 
 use Gloudemans\Shoppingcart\Facades\Cart;
+use Illuminate\Support\Facades\Session;
 
 function setActive (array $route) {
     if (is_array($route)) {
@@ -52,11 +53,44 @@ function checkProductType (string $type) {
     }
 }
 
-function getCartSidebarTotal() {
+function getCartTotal() {
     $total = 0;
     foreach(Cart::content() as $product) {
         $total += ($product->price + $product->options->variants_total ) * $product->qty;
     }
 
     return $total;
+}
+
+function getMainCartTotal() {
+    if(Session::has('coupon')) {
+        $coupon = Session::get('coupon');
+        $subtotal = getCartTotal();
+        if($coupon['discount_type'] === 'amount') {
+            $total = $subtotal - $coupon['discount'];
+            return $total;
+        } elseif ($coupon['discount_type'] === 'percernt') {
+            $discount = ($subtotal * $coupon['discount'] / 100);
+            $total = $subtotal - $discount;
+            return $total;
+        }
+    } else {
+        return getCartTotal();
+    }
+}
+
+
+function getCartDiscount () {
+    if(Session::has('coupon')) {
+        $coupon = Session::get('coupon');
+        $subtotal = getCartTotal();
+        if($coupon['discount_type'] === 'amount') {
+            return $coupon['discount'];
+        } elseif ($coupon['discount_type'] === 'percernt') {
+            $discount = $subtotal - ($subtotal * $coupon['discount'] / 100);
+            return $discount;
+        }
+    } else {
+        return 0;
+    }
 }

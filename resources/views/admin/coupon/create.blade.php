@@ -52,7 +52,7 @@
                     <div class="form-group col-md-4">
                         <label for="inputState">Discount Type</label>
                         <select id="inputState" class="form-control sub-category" name="discount_type">
-                            <option value="percernt">Percentage (%)</option>
+                            <option value="percent">Percentage (%)</option>
                             <option value="amount">Amount ({{$settings->currency_icon}})</option>
                         </select>
                     </div>
