@@ -135,6 +135,8 @@
     <!--slick slider js-->
     <script src="{{asset('frontend/js/slick.min.js')}}"></script>
     <!--simplyCountdown js-->
+    <script src="{{asset('frontend/js/select2.min.js')}}"></script>
+    <!--simplyCountdown js-->
     <script src="{{asset('frontend/js/simplyCountdown.js')}}"></script>
     <!--product zoomer js-->
     <script src="{{asset('frontend/js/jquery.exzoom.js')}}"></script>
