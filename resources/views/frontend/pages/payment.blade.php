@@ -57,7 +57,7 @@
                                 <div class="row">
                                     <div class="col-xl-12 m-auto">
                                         <div class="wsus__payment_area">
-                                            <button class="nav-link common_btn">Pay with Paypal</button>
+                                            <a href="{{route('user.paypal.payment')}}" class="nav-link common_btn">Pay with Paypal</a>
                                         </div>
                                     </div>
                                 </div>
@@ -80,9 +80,9 @@
                         <div class="wsus__pay_booking_summary" id="sticky_sidebar2">
                             <h5>Order Summary</h5>
                             <p>subtotal: <span>{{$settings->currency_icon}}{{getCartTotal()}}</span></p>
-                            <p>shipping fee: <span>$20.00 </span></p>
-                            <p>tax: <span>$00.00</span></p>
-                            <h6>total <span>$140.00</span></h6>
+                            <p>shipping fee(+): <span>{{$settings->currency_icon}}{{getShippingFee()}} </span></p>
+                            <p>Coupon(-): <span>{{$settings->currency_icon}}{{getCartDiscount()}}</span></p>
+                            <h6>total <span>{{$settings->currency_icon}}{{getPayableAmount()}}</span></h6>
                         </div>
                     </div>
                 </div>

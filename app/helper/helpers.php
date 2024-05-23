@@ -94,3 +94,16 @@ function getCartDiscount () {
         return 0;
     }
 }
+
+
+function getShippingFee() {
+    if(Session::has('shipping_method')) {
+        return Session::get('shipping_method')['cost'];
+    } else {
+        return 0;
+    }
+}
+
+function getPayableAmount () {
+    return getMainCartTotal() + getShippingFee();
+}
