@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\PaypalSetting;
 use App\Models\Product;
+use App\Models\StripeSetting;
 use App\Models\Transaction;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
@@ -16,6 +17,8 @@ use Illuminate\Support\Facades\Session;
 
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 
+use Stripe\Charge;
+use Stripe\Stripe;
 
 class PaymentController extends Controller
 {
@@ -144,7 +147,7 @@ class PaymentController extends Controller
         $provider->getAccessToken();
 
         $response = $provider->capturePaymentOrder($request->token);
-        if( $response['status'] == 'COMPLETED' ) {
+        if(isset($response['status']) && $response['status'] == 'COMPLETED' ) {
 
             $payableAmount = $this->payableAmount();
 
@@ -152,6 +155,8 @@ class PaymentController extends Controller
 
             $this->clearCart();
             return redirect()->route('user.payment.success');
+        } else {
+            return redirect()->route('user.payment');
         }
     }
 
@@ -159,6 +164,36 @@ class PaymentController extends Controller
         toastr('Something went wrong try again later!', 'error', 'Error');
         return redirect()->route('user.payment');
     }
+
+    /** Stripe PAyment */
+
+    public function payWithStripe (Request $request) {
+
+        $stripeSetting = StripeSetting::first();
+        Stripe::setVerifySslCerts(false);
+        Stripe::setApiKey($stripeSetting->secret_key);
+        $payableAmount = $this->payableAmount();
+
+        $response = Charge::create([
+            "amount" =>  $payableAmount['payableAmount'] * 100,
+            "currency" => $stripeSetting->currency_name,
+            "source" => $request->stripe_token,
+            "description" => "product purchase!"
+        ]);
+
+        if($response->status === 'succeeded')
+        {
+            $this->storeOrder('paypal', 1 , $response->id, $payableAmount['payableAmount'], $stripeSetting->currency_name);
+
+            $this->clearCart();
+            return redirect()->route('user.payment.success');
+        } else {
+            toastr('Something went wrong try again later!', 'error', 'Error');
+            return redirect()->route('user.payment');
+        }
+    }
+
+
 
     public function clearCart() {
         Cart::destroy();

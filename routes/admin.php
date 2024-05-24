@@ -19,6 +19,7 @@ use App\Http\Controllers\Backend\ProductVariantItemController;
 use App\Http\Controllers\Backend\SellerProductController;
 use App\Http\Controllers\Backend\SettingController;
 use App\Http\Controllers\Backend\ShippingRuleController;
+use App\Http\Controllers\Backend\StripeSettingController;
 use App\Models\GeneralSetting;
 use Illuminate\Support\Facades\Route;
 
@@ -101,3 +102,4 @@ Route::put('genereal-setting-update', [SettingController::class, 'generalSetting
 /** Payment setting Routes */
 Route::get('payment-settings', [PaymentSettingController::class, 'index'])->name('payment-settings.index');
 Route::resource('paypal-setting', PaypalSettingController::class);
+Route::put('stripe-setting/{id}', [StripeSettingController::class ,'update'])->name('stripe-setting.update');

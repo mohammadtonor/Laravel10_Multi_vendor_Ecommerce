@@ -35,13 +35,13 @@
                     <label>Currency Name</label>
                     <select name="currency_name" class="form-control select2">
                         @foreach (config('setting.currncy_list') as $key => $currency)
-                            <option {{$paypalSetting->currency_name == $currency ? 'selected' : ''}} value="{{$currency}}">{{$currency}}</option>
+                            <option {{$paypalSetting->currency_name == $currency ? 'selected' : ''}} value="{{$currency}}">{{$key}}</option>
                         @endforeach
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label>Currency Rate ( per USD )</label>
+                    <label>Currency Rate ( per {{$settings->currency_name}} )</label>
                     <input type="text" class="form-control" name="currency_rate" value="{{$paypalSetting->currency_rate}}">
                 </div>
 
